@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A693209E-6768-4040-BA7B-8E5ACEAC0546}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SessionStore", "src\DynamoDbBook.SessionStore\DynamoDbBook.SessionStore.csproj", "{9A347A89-A046-4C17-98CE-08F6EAEFBDB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SessionStore", "src\SessionStore\DynamoDbBook.SessionStore\DynamoDbBook.SessionStore.csproj", "{9A347A89-A046-4C17-98CE-08F6EAEFBDB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SessionStore", "SessionStore", "{26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}"
 EndProject
