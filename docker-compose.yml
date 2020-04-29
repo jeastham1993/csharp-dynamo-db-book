@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  localstack:
+    
+    image: localstack/localstack:latest
+    container_name: localstack-dynamodb
+    environment:
+     - SERVICES=s3,dynamodb,sqs
+     - DATA_DIR=/tmp/localstack/data
+    ports:
+     - 4566:4566
+     - 8080:8080
+    volumes:
+      - localstack-dynamodb-data:/tmp/localstack
+
+volumes:
+  localstack-dynamodb-data:
+    name: localstack-dynamodb-data
