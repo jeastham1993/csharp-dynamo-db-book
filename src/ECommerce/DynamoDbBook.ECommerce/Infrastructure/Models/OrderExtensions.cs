@@ -77,6 +77,21 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 			return attributeMap;
 		}
 
+		public static Dictionary<string, AttributeValue> AsGsi1(this OrderItem item)
+		{
+			if (item == null)
+			{
+				throw new ArgumentNullException(nameof(item));
+			}
+
+			var attributeMap = new Dictionary<string, AttributeValue>(5);
+
+			attributeMap.Add("GSI1PK", new AttributeValue($"ORDER#{item.OrderId}"));
+			attributeMap.Add("GSI1SK", new AttributeValue($"ITEM#{item.ItemId}"));
+
+			return attributeMap;
+		}
+
 		public static Dictionary<string, AttributeValue> AsAttributeMap(this OrderItem order)
 		{
 			if (order == null)
@@ -84,9 +99,14 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 				throw new ArgumentNullException(nameof(order));
 			}
 
-			var attributeMap = new Dictionary<string, AttributeValue>(5);
+			var attributeMap = new Dictionary<string, AttributeValue>(7);
 
 			foreach(var map in order.AsKeys())
+			{
+				attributeMap.Add(map.Key, map.Value);	
+			}
+
+			foreach(var map in order.AsGsi1())
 			{
 				attributeMap.Add(map.Key, map.Value);	
 			}
