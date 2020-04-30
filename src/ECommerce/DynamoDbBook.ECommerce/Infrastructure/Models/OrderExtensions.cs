@@ -28,6 +28,21 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 			return attributeMap;
 		}
 
+		public static Dictionary<string, AttributeValue> AsGsi1(this Order order)
+		{
+			if (order == null)
+			{
+				throw new ArgumentNullException(nameof(order));
+			}
+
+			var attributeMap = new Dictionary<string, AttributeValue>(5);
+
+			attributeMap.Add("GSI1PK", new AttributeValue($"ORDER#{order.OrderId}"));
+			attributeMap.Add("GSI1SK", new AttributeValue($"ORDER#{order.OrderId}"));
+
+			return attributeMap;
+		}
+
 		public static Dictionary<string, AttributeValue> AsAttributeMap(this Order order)
 		{
 			if (order == null)
@@ -38,6 +53,11 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 			var attributeMap = new Dictionary<string, AttributeValue>(5);
 
 			foreach(var map in order.AsKeys())
+			{
+				attributeMap.Add(map.Key, map.Value);	
+			}
+
+			foreach(var map in order.AsGsi1())
 			{
 				attributeMap.Add(map.Key, map.Value);	
 			}
