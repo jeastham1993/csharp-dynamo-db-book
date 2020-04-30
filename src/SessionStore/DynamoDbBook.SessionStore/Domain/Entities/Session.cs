@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Newtonsoft.Json;
+
 namespace DynamoDbBook.SessionStore.Domain.Entities
 {
 	public class Session
@@ -21,12 +23,16 @@ namespace DynamoDbBook.SessionStore.Domain.Entities
 							  };
 		}
 
+		[JsonProperty]
         public Guid SessionToken { get; private set; }
 
+		[JsonProperty]
 		public string Username { get; private set; }
 
+		[JsonProperty]
 		public DateTime CreatedAt { get; private set; }
 
+		[JsonProperty]
 		public DateTime ExpiresAt => this.CreatedAt.AddDays(SessionAliveFor);
 	}
 }

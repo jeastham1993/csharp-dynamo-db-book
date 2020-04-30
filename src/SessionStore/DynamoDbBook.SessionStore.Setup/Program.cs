@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -67,6 +68,24 @@ namespace DynamoDbBook.SessionStore.Setup
 							  };
 
 			var createResult = client.CreateTableAsync(request).Result;
+
+			if (createResult.HttpStatusCode != HttpStatusCode.OK)
+			{
+				throw new Exception($"Failure creating table");
+			}
+			else
+			{
+				var updateTimeToLiveRequest = new UpdateTimeToLiveRequest()
+												  {
+													  TableName = "SessionStore",
+													  TimeToLiveSpecification = new TimeToLiveSpecification()
+																					{
+																						AttributeName = "TTL",
+																						Enabled = true,
+																					},
+												  };
+				client.UpdateTimeToLiveAsync(updateTimeToLiveRequest);
+			}
 		}
 	}
 }

@@ -14,7 +14,8 @@ docker-compose up -d
 Then run the console application in the DynamoDbBook.SessionStore.Setup folder. This console application handles the creation of the DynamoDB table and is hardcoded to use the localstack implementation. If a different URL is required, or you'd like to create in DynamoDB within AWS the code will need to be changed.
 
 ``` bash
-dotnet run .\src\SessionStore\DynamoDbBook.SessionStore.Setup\DynamoDbBook.SessionStore.Setup.csproj
+cd .\src\SessionStore\DynamoDbBook.SessionStore.Setup\
+dotnet run
 ```
 
 Then start a new debug session using the API in DynamoDbBook.SessionStore folder. The API includes Swagger UI for testing the API.
