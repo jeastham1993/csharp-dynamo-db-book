@@ -5,11 +5,24 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A693209E-6768-4040-BA7B-8E5ACEAC0546}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SessionStore", "src\SessionStore\DynamoDbBook.SessionStore\DynamoDbBook.SessionStore.csproj", "{9A347A89-A046-4C17-98CE-08F6EAEFBDB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.SessionStore", "src\SessionStore\DynamoDbBook.SessionStore\DynamoDbBook.SessionStore.csproj", "{9A347A89-A046-4C17-98CE-08F6EAEFBDB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SessionStore", "SessionStore", "{26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SessionStore.Setup", "src\SessionStore\DynamoDbBook.SessionStore.Setup\DynamoDbBook.SessionStore.Setup.csproj", "{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.SessionStore.Setup", "src\SessionStore\DynamoDbBook.SessionStore.Setup\DynamoDbBook.SessionStore.Setup.csproj", "{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "E-Commerce", "E-Commerce", "{3FDDFB2E-C01B-4C72-9B8E-27868DEA0C8A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.ECommerce", "src\ECommerce\DynamoDbBook.ECommerce\DynamoDbBook.ECommerce.csproj", "{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C7A1820E-E99B-41CD-8A6B-6E8A1103BCFD}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Desktop\DynamoDbBook.postman_collection.json = ..\..\..\..\Desktop\DynamoDbBook.postman_collection.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SharedKernel", "src\DynamoDbBook.SharedKernel\DynamoDbBook.SharedKernel.csproj", "{123E539B-E28C-46F8-A04A-687F2DBCAFCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.ECommerce.Setup", "src\ECommerce\DynamoDbBook.ECommerce.Setup\DynamoDbBook.ECommerce.Setup.csproj", "{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +58,42 @@ Global
 		{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F}.Release|x64.Build.0 = Release|Any CPU
 		{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F}.Release|x86.ActiveCfg = Release|Any CPU
 		{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F}.Release|x86.Build.0 = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|x64.Build.0 = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA}.Release|x86.Build.0 = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|x64.Build.0 = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Debug|x86.Build.0 = Debug|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|x64.ActiveCfg = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|x64.Build.0 = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|x86.ActiveCfg = Release|Any CPU
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC}.Release|x86.Build.0 = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|x64.Build.0 = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +102,11 @@ Global
 		{9A347A89-A046-4C17-98CE-08F6EAEFBDB3} = {26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}
 		{26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054} = {A693209E-6768-4040-BA7B-8E5ACEAC0546}
 		{28E90A3C-8EFD-4DD0-9BE5-9FCDD7301B2F} = {26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}
+		{3FDDFB2E-C01B-4C72-9B8E-27868DEA0C8A} = {A693209E-6768-4040-BA7B-8E5ACEAC0546}
+		{EA648AD8-AE95-41E6-8A47-6A09A9DBA7BA} = {3FDDFB2E-C01B-4C72-9B8E-27868DEA0C8A}
+		{C7A1820E-E99B-41CD-8A6B-6E8A1103BCFD} = {26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}
+		{123E539B-E28C-46F8-A04A-687F2DBCAFCC} = {A693209E-6768-4040-BA7B-8E5ACEAC0546}
+		{3CE777BA-6CFC-41CF-AAFC-0EF216CA12D1} = {3FDDFB2E-C01B-4C72-9B8E-27868DEA0C8A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFE411D5-7387-4896-9338-D3A09D92FDDD}
