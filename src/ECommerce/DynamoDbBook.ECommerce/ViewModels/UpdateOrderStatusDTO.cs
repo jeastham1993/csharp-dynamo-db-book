@@ -7,10 +7,10 @@ using DynamoDbBook.ECommerce.Domain.Entities;
 
 namespace DynamoDbBook.ECommerce.ViewModels
 {
-    public class UpdateCustomerDTO
+    public class UpdateOrderStatusDTO
     {
-		public string Username { get; set; }
+        public Order Order { get; set; }
 
-		public AddressDTO Address { get; set; }
+        public OrderStatus NewStatus { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 
 using DynamoDbBook.ECommerce.Domain.Entities;
@@ -43,7 +44,7 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 			return attributeMap;
 		}
 
-		public static Dictionary<string, AttributeValue> AsAttributeMap(this Order order)
+		public static Dictionary<string, AttributeValue> AsItem(this Order order)
 		{
 			if (order == null)
 			{
@@ -62,24 +63,24 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 				attributeMap.Add(map.Key, map.Value);	
 			}
 
-			var addressData = new Dictionary<string, AttributeValue>();
-
 			attributeMap.Add("Type", new AttributeValue("Order"));
-			attributeMap.Add("Username", new AttributeValue(order.Username));
-			attributeMap.Add("OrderId", new AttributeValue(order.OrderId));
-			attributeMap.Add("Address", new AttributeValue(JsonConvert.SerializeObject(order.Address)));
-			attributeMap.Add("CreatedAt", new AttributeValue(order.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")));
-			attributeMap.Add("Status", new AttributeValue(order.Status.ToString()));
-			attributeMap.Add("TotalAmount", new AttributeValue()
-												{
-													N = order.TotalAmount.ToString("n2")
-												});
-			attributeMap.Add("NumberItems", new AttributeValue()
-												{
-													N = order.NumberItems.ToString("n0")
-												});
+			attributeMap.Add(
+				"Data",
+				new AttributeValue(){ M = order.AsData()});
 
 			return attributeMap;
+		}
+
+		public static Dictionary<string, AttributeValue> AsData(
+			this Order order)
+		{
+			var document = Document.FromJson(JsonConvert.SerializeObject(order));
+			var documentAttributeMap = document.ToAttributeMap();
+			documentAttributeMap.Remove("items");
+			documentAttributeMap.Remove("TotalAmount");
+			documentAttributeMap.Remove("NumberItems");
+
+			return documentAttributeMap;
 		}
 
 		public static Dictionary<string, AttributeValue> AsKeys(this OrderItem item)
@@ -112,43 +113,32 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 			return attributeMap;
 		}
 
-		public static Dictionary<string, AttributeValue> AsAttributeMap(this OrderItem order)
+		public static Dictionary<string, AttributeValue> AsAttributeMap(this OrderItem orderItem)
 		{
-			if (order == null)
+			if (orderItem == null)
 			{
-				throw new ArgumentNullException(nameof(order));
+				throw new ArgumentNullException(nameof(orderItem));
 			}
 
 			var attributeMap = new Dictionary<string, AttributeValue>(7);
 
-			foreach(var map in order.AsKeys())
+			foreach(var map in orderItem.AsKeys())
 			{
 				attributeMap.Add(map.Key, map.Value);	
 			}
 
-			foreach(var map in order.AsGsi1())
+			foreach(var map in orderItem.AsGsi1())
 			{
 				attributeMap.Add(map.Key, map.Value);	
 			}
 
-			var addressData = new Dictionary<string, AttributeValue>();
+			var document = Document.FromJson(JsonConvert.SerializeObject(orderItem));
+			document.ToAttributeMap();
 
 			attributeMap.Add("Type", new AttributeValue("OrderItem"));
-			attributeMap.Add("OrderId", new AttributeValue(order.OrderId));
-			attributeMap.Add("ItemId", new AttributeValue(order.ItemId));
-			attributeMap.Add("Description", new AttributeValue(order.Description));
-			attributeMap.Add("Price", new AttributeValue()
-										  {
-											  N = order.Price.ToString()
-										  });
-			attributeMap.Add("Amount", new AttributeValue()
-										  {
-											  N = order.Amount.ToString()
-										  });
-			attributeMap.Add("TotalCost", new AttributeValue()
-										  {
-											  N = order.TotalCost.ToString()
-										  });
+			attributeMap.Add(
+				"Data",
+				new AttributeValue(){ M = document.ToAttributeMap()});
 
 			return attributeMap;
 		}

@@ -11,7 +11,7 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 {
     public static class AddressExtensions
     {
-		public static Dictionary<string, AttributeValue> AsAttributeMap(
+		public static Dictionary<string, AttributeValue> AsItem(
 			this Address address)
 		{
 			var attributeMap = new Dictionary<string, AttributeValue>(3);
@@ -20,7 +20,7 @@ namespace DynamoDbBook.ECommerce.Infrastructure.Models
 				new AttributeValue(address.StreetAddress));
 
 			attributeMap.Add(
-				"PostcalCode",
+				"PostalCode",
 				new AttributeValue(address.PostalCode));
 
 			attributeMap.Add(

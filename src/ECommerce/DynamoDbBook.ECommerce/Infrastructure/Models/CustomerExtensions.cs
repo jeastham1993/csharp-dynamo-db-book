@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Xml;
 
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
@@ -45,24 +46,31 @@ namespace DynamoDbBook.SessionStore.Infrastructure
 				attributeMap.Add(map.Key, map.Value);	
 			}
 
+			attributeMap.Add("Type", new AttributeValue("Customer"));
+			attributeMap.Add("Data", new AttributeValue() { M = customer.AsData() });
+			return attributeMap;
+		}
+
+		public static Dictionary<string, AttributeValue> AsData(this Customer customer)
+		{
+			var document = Document.FromJson(JsonConvert.SerializeObject(customer));
+			var documentAttributeMap = document.ToAttributeMap();
+			documentAttributeMap.Remove("addresses");
+
 			var addressData = new Dictionary<string, AttributeValue>();
 
 			foreach (var address in customer.Addresses)
 			{
 				addressData.Add(
 					address.Name,
-					new AttributeValue() { M = address.AsAttributeMap(), });
+					new AttributeValue() { M = address.AsItem(), });
 			}
 
-			attributeMap.Add("Type", new AttributeValue("Customer"));
-			attributeMap.Add("Username", new AttributeValue(customer.Username));
-			attributeMap.Add("Email", new AttributeValue(customer.Email));
-			attributeMap.Add("Name", new AttributeValue(customer.Name));
-			attributeMap.Add("Addresses", new AttributeValue()
-											  {
-												  M = addressData
-											  });
-			return attributeMap;
+			documentAttributeMap.Add(
+				"addresses",
+				new AttributeValue() { M = addressData });
+
+			return documentAttributeMap;
 		}
 
 		public static Dictionary<string, AttributeValue> AsCustomerEmailKeys(this Customer customer)

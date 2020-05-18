@@ -11,6 +11,11 @@ namespace DynamoDbBook.ECommerce.Domain.Entities
 {
     public class Address
     {
+		[JsonConstructor]
+		private Address()
+		{
+		}
+
 		public Address(
 			string name,
 			string streetAddress,

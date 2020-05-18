@@ -26,6 +26,21 @@ namespace DynamoDbBook.ECommerce.Controllers
 			this._customerRepo = customerRepo;
 		}
 
+		[HttpGet]
+		public async Task<ActionResult<Customer>> GetCustomer(string userName)
+		{
+			var customer = await this._customerRepo.GetCustomerAsync(userName).ConfigureAwait(false);
+
+			if (customer != null)
+			{
+				return this.Ok(customer);
+			}
+			else
+			{
+				return this.NotFound("Customer does not exist");
+			}
+		}
+
 		[HttpPost]
 		public async Task<ActionResult<Customer>> CreateCustomer(
 			[FromBody] CreateCustomerDTO createCustomer)
@@ -69,6 +84,23 @@ namespace DynamoDbBook.ECommerce.Controllers
 						customerUpdate.Address.Country));
 
 				return this.Ok(customerUpdate);
+			}
+			catch (ConditionalCheckFailedException ex)
+			{
+				return this.NotFound("Customer not found");
+			}
+		}
+
+		[HttpDelete("{username}/address")]
+		public async Task<ActionResult<Customer>> DeleteAddress(string username, string addressName)
+		{
+			try
+			{
+				await this._customerRepo.DeleteAddressAsync(
+					username,
+					addressName);
+
+				return this.Ok();
 			}
 			catch (ConditionalCheckFailedException ex)
 			{

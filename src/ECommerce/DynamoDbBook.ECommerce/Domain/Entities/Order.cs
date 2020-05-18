@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 using DynamoDbBook.SharedKernel;
 
+using Newtonsoft.Json;
+
 namespace DynamoDbBook.ECommerce.Domain.Entities
 {
     public class Order
     {
+		[JsonConstructor]
 		private Order()
 		{
-			this.OrderId = Ksuid.Generate().ToString();
-			this.CreatedAt = DateTime.Now;
-			this._items = new List<OrderItem>();
 		}
 
 		public static Order Create(
@@ -26,26 +26,63 @@ namespace DynamoDbBook.ECommerce.Domain.Entities
 			return new Order()
 					   {
 						   Address = address,
-						   Username = username
+						   Username = username,
+						   OrderId = Ksuid.Generate().ToString().Replace("/", string.Empty),
+						   CreatedAt = DateTime.Now,
+						   _items = new List<OrderItem>()
 					   };
 		}
 
+		[JsonProperty("items")]
 		private List<OrderItem> _items;
 
+		[JsonProperty("username")]
 		public string Username { get; private set; }
 
+		[JsonProperty]
 		public string OrderId { get; private set; }
 
+		[JsonProperty]
+		public string AddressString { get; private set; }
+
+		[JsonProperty]
         public Address Address { get; set; }
 
+		[JsonProperty]
 		public DateTime CreatedAt { get; private set; }
 
+		[JsonProperty]
 		public OrderStatus Status { get; set; }
 
-		public decimal TotalAmount => this._items.Sum(p => p.Amount);
+		[JsonProperty]
+		public decimal TotalAmount
+		{
+			get
+			{
+				if (this._items == null)
+				{
+					return 0;
+				}
 
-		public int NumberItems => this._items.Count;
+				return this._items.Sum(p => p.TotalCost);
+			}
+		}
 
+		[JsonProperty]
+		public decimal NumberItems
+		{
+			get
+			{
+				if (this._items == null)
+				{
+					return 0;
+				}
+
+				return this._items.Count();
+			}
+		}
+
+		[JsonIgnore]
 		public IReadOnlyCollection<OrderItem> Items => this._items;
 
 		public OrderItem AddItem(string description, decimal amount, decimal price)
@@ -58,6 +95,14 @@ namespace DynamoDbBook.ECommerce.Domain.Entities
 				newItem);
 
 			return newItem;
+		}
+
+		public OrderItem AddItem(OrderItem item)
+		{
+			this._items.Add(
+				item);
+
+			return item;
 		}
 	}
 }

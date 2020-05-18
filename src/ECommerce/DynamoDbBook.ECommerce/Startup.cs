@@ -15,6 +15,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace DynamoDbBook.ECommerce
 {
     public class Startup
@@ -30,7 +33,12 @@ namespace DynamoDbBook.ECommerce
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDynamoDb(Configuration)
-				.AddControllers();
+				.AddControllers()
+				.AddNewtonsoftJson(options =>
+					{
+						options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+						options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+					});
 
 			services.AddSwaggerGen(c => {
 					c.SwaggerDoc("v1", new OpenApiInfo { Title = "Session Store", Version = "v1" });
