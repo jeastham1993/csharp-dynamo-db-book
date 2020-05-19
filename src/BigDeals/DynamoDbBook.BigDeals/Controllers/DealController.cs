@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using DynamoDbBook.BigDeals.Domain.Entities;
@@ -74,6 +75,36 @@ namespace DynamoDbBook.BigDeals.Controllers
 		{
 			return await this._dealRepository.FetchDealsForCategoryAndDateAsync(categoryName, date, lastSeen, limit)
 					   .ConfigureAwait(false);
+		}
+
+		[HttpPut("editorschoice")]
+		public async Task<IActionResult> UpdateEditorsChoice(
+			[FromBody] List<Deal> deals)
+		{
+			await this._dealRepository.UpdateEditorsChoiceAsync(deals).ConfigureAwait(false);
+
+			return this.Ok();
+		}
+
+		[HttpPut("frontpage")]
+		public async Task<IActionResult> UpdateFrontPage(
+			[FromBody] List<Deal> deals)
+		{
+			await this._dealRepository.UpdateFrontPageAsync(deals).ConfigureAwait(false);
+
+			return this.Ok();
+		}
+
+		[HttpGet("editorschoice")]
+		public async Task<IEnumerable<Deal>> GetEditorsChoice()
+		{
+			return await this._dealRepository.GetEditorsChoiceAsync().ConfigureAwait(false);
+		}
+
+		[HttpGet("frontpage")]
+		public async Task<IEnumerable<Deal>> GetFrontPage()
+		{
+			return await this._dealRepository.GetFrontPageAsync().ConfigureAwait(false);
 		}
     }
 }

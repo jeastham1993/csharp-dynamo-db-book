@@ -51,6 +51,9 @@ namespace DynamoDbBook.BigDeals.Setup
 																	 ScalarAttributeType.S),
 																 new AttributeDefinition(
 																	 "GSI3SK",
+																	 ScalarAttributeType.S),
+																 new AttributeDefinition(
+																	 "UserIndex",
 																	 ScalarAttributeType.S)
 															 },
 								  KeySchema = new List<KeySchemaElement>(1)
@@ -116,6 +119,23 @@ namespace DynamoDbBook.BigDeals.Setup
 																							   new KeySchemaElement(
 																								   "GSI3SK",
 																								   KeyType.RANGE),
+																						   },
+																		   Projection = new Projection()
+																							{
+																								ProjectionType = ProjectionType.ALL
+																							},
+																		   ProvisionedThroughput = new ProvisionedThroughput(
+																			   10,
+																			   10),
+																	   },
+																   new GlobalSecondaryIndex()
+																	   {
+																		   IndexName = "UserIndex",
+																		   KeySchema = new List<KeySchemaElement>(1)
+																						   {
+																							   new KeySchemaElement(
+																								   "UserIndex",
+																								   KeyType.HASH),
 																						   },
 																		   Projection = new Projection()
 																							{

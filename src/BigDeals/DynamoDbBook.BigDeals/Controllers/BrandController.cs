@@ -41,5 +41,31 @@ namespace DynamoDbBook.BigDeals.Controllers
 		{
 			return await this._brandRepository.ListBrandsAsync();
 		}
+
+		[HttpGet("{brandName}")]
+		public async Task<Brand> GetBrand(string brandName)
+		{
+			return await this._brandRepository.GetBrandAsync(brandName);
+		}
+
+		[HttpPut("like")]
+		public async Task<IActionResult> LikeBrand([FromBody] LikeBrandDTO likeBrand)
+		{
+			await this._brandRepository.LikeBrandAsync(
+				likeBrand.Brand,
+				likeBrand.Username).ConfigureAwait(false);
+
+			return this.Ok();
+		}
+
+		[HttpPut("watch")]
+		public async Task<IActionResult> WatchBrand([FromBody] LikeBrandDTO likeBrand)
+		{
+			await this._brandRepository.WatchBrandAsync(
+				likeBrand.Brand,
+				likeBrand.Username).ConfigureAwait(false);
+
+			return this.Ok();
+		}
     }
 }

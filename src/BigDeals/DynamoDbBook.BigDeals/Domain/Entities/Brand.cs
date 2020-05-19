@@ -19,10 +19,15 @@ namespace DynamoDbBook.BigDeals.Domain.Entities
 				logoUrl,
 				nameof(logoUrl));
 
-			return new Brand() { BrandName = name, BrandLogoUrl = logoUrl };
+			return new Brand() { BrandName = name, BrandLogoUrl = logoUrl, WatchCount = 0, LikesCount = 0};
 		}
+
 		public string BrandName { get; set; }
 
 		public string BrandLogoUrl { get; set; }
+
+		public int LikesCount { get; set; }
+
+		public int WatchCount { get; set; }
     }
 }

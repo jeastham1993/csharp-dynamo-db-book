@@ -45,6 +45,9 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			services.AddTransient<IDealRepository, DealRepository>();
 			services.AddTransient<IBrandRepository, BrandRepository>();
+			services.AddTransient<ICategoryRepository, CategoryRepository>();
+			services.AddTransient<IUserRepository, UserRepository>();
+			services.AddTransient<IMessageRepository, MessageRepository>();
 
 			return services;
 		}

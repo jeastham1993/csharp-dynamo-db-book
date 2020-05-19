@@ -176,5 +176,103 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			return dealResponse;
 		}
+
+		/// <inheritdoc />
+		public async Task UpdateEditorsChoiceAsync(
+			IEnumerable<Deal> deals)
+		{
+			var transactWriteItemRequest = new TransactWriteItemsRequest();
+
+			for (int x = 0; x < DynamoDbConstants.EditorsChoiceShards; x++)
+			{
+				transactWriteItemRequest.TransactItems.Add(
+					new TransactWriteItem()
+						{
+							Put = new Put()
+									  {
+										  TableName = DynamoDbConstants.TableName,
+										  Item = EditorsChoice.AsItem(
+											  shard: x,
+											  deals),
+									  }
+						});
+			}
+
+			await this._client.TransactWriteItemsAsync(transactWriteItemRequest).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task UpdateFrontPageAsync(
+			IEnumerable<Deal> deals)
+		{
+			var transactWriteItemRequest = new TransactWriteItemsRequest();
+
+			for (int x = 0; x < DynamoDbConstants.FrontPageShards; x++)
+			{
+				transactWriteItemRequest.TransactItems.Add(
+					new TransactWriteItem()
+						{
+							Put = new Put()
+									  {
+										  TableName = DynamoDbConstants.TableName,
+										  Item = FrontPage.AsItem(
+											  shard: x,
+											  deals),
+									  }
+						});
+			}
+
+			await this._client.TransactWriteItemsAsync(transactWriteItemRequest).ConfigureAwait(false);
+		}
+
+		/// <inheritdoc />
+		public async Task<IEnumerable<Deal>> GetEditorsChoiceAsync()
+		{
+			var random = new Random(DateTime.Now.Second);
+			var randomShard = random.Next(
+				0,
+				DynamoDbConstants.EditorsChoiceShards);
+
+			var getItemResponse = await this._client.GetItemAsync(
+									  new GetItemRequest()
+										  {
+											  TableName = DynamoDbConstants.TableName,
+											  Key = EditorsChoice.AsKeys(randomShard)
+										  }).ConfigureAwait(false);
+
+			if (getItemResponse.Item.Any())
+			{
+				return JsonConvert.DeserializeObject<List<Deal>>(getItemResponse.Item["Data"].S);
+			}
+			else
+			{
+				return new List<Deal>();
+			}
+		}
+
+		/// <inheritdoc />
+		public async Task<IEnumerable<Deal>> GetFrontPageAsync()
+		{
+			var random = new Random(DateTime.Now.Second);
+			var randomShard = random.Next(
+				0,
+				DynamoDbConstants.FrontPageShards);
+
+			var getItemResponse = await this._client.GetItemAsync(
+									  new GetItemRequest()
+										  {
+											  TableName = DynamoDbConstants.TableName,
+											  Key = FrontPage.AsKeys(randomShard)
+										  }).ConfigureAwait(false);
+
+			if (getItemResponse.Item.Any())
+			{
+				return JsonConvert.DeserializeObject<List<Deal>>(getItemResponse.Item["Data"].S);
+			}
+			else
+			{
+				return new List<Deal>();
+			}
+		}
 	}
 }

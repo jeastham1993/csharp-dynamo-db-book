@@ -26,5 +26,15 @@ namespace DynamoDbBook.BigDeals.Domain.Entities
 			DateTime date,
 			string lastSeen = "$",
 			int limit = 25);
+
+		Task UpdateEditorsChoiceAsync(
+			IEnumerable<Deal> deals);
+
+		Task UpdateFrontPageAsync(
+			IEnumerable<Deal> deals);
+
+		Task<IEnumerable<Deal>> GetEditorsChoiceAsync();
+
+		Task<IEnumerable<Deal>> GetFrontPageAsync();
 	}
 }

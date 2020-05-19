@@ -17,23 +17,23 @@ using Newtonsoft.Json;
 
 namespace DynamoDbBook.BigDeals.Infrastructure
 {
-	public class BrandRepository : IBrandRepository
+	public class CategoryRepository : ICategoryRepository
 	{
 		private readonly AmazonDynamoDBClient _client;
 
-		private readonly ILogger<BrandRepository> _logger;
+		private readonly ILogger<CategoryRepository> _logger;
 
-		public BrandRepository(
+		public CategoryRepository(
 			AmazonDynamoDBClient client,
-			ILogger<BrandRepository> logger)
+			ILogger<CategoryRepository> logger)
 		{
 			this._client = client;
 			this._logger = logger;
 		}
 
 		/// <inheritdoc />
-		public async Task<Brand> CreateAsync(
-			Brand brandToCreate)
+		public async Task<Category> CreateOrUpdateAsync(
+			Category categoryToCreate)
 		{
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
 											   {
@@ -44,7 +44,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																				   Put = new Put()
 																							 {
 																								 Item =
-																									 brandToCreate
+																									 categoryToCreate
 																										 .AsItem(),
 																								 TableName =
 																									 DynamoDbConstants
@@ -55,78 +55,28 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																			   },
 																	   }
 											   };
-			var brandContainerAttributeNames = new Dictionary<string, string>(1);
-			brandContainerAttributeNames.Add(
-				"#brands",
-				"Brands");
-
-			var brandContainerAttributeValues = new Dictionary<string, AttributeValue>(1);
-			brandContainerAttributeValues.Add(
-				":brand",
-				new AttributeValue(new List<string>(1) { brandToCreate.BrandName }));
-
-			for (int shard = 0; shard < DynamoDbConstants.BrandShards; shard++)
-			{
-				transactWriteItemRequest.TransactItems.Add(
-					new TransactWriteItem()
-						{
-							Update = new Update()
-										 {
-											 Key = BrandContainer.AsKeys(shard),
-											 TableName = DynamoDbConstants.TableName,
-											 UpdateExpression = "ADD #brands :brand",
-											 ExpressionAttributeNames = brandContainerAttributeNames,
-											 ExpressionAttributeValues = brandContainerAttributeValues
-										 }
-						});
-			}
 
 			var result = await this._client.TransactWriteItemsAsync(transactWriteItemRequest).ConfigureAwait(false);
 
-			return brandToCreate;
+			return categoryToCreate;
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<string>> ListBrandsAsync()
+		public async Task<Category> GetCategoryAsync(
+			string categoryName)
 		{
-			var random = new Random(DateTime.Now.Second);
-			var randomShard = random.Next(
-				0,
-				DynamoDbConstants.BrandShards);
-
-			var getItemResponse = await this._client.GetItemAsync(
-									  new GetItemRequest()
-										  {
-											  TableName = DynamoDbConstants.TableName,
-											  Key = BrandContainer.AsKeys(randomShard)
-										  }).ConfigureAwait(false);
-
-			if (getItemResponse.Item.Any())
-			{
-				return getItemResponse.Item["Brands"].SS;
-			}
-			else
-			{
-				return new List<string>();
-			}
-		}
-
-		/// <inheritdoc />
-		public async Task<Brand> GetBrandAsync(
-			string brandName)
-		{
-			var getItemRequest = new GetItemRequest(DynamoDbConstants.TableName, new Brand(){BrandName = brandName}.AsKeys());
+			var getItemRequest = new GetItemRequest(DynamoDbConstants.TableName, new Category(){Name = categoryName}.AsKeys());
 
 			var getItem = await this._client.GetItemAsync(getItemRequest).ConfigureAwait(false);
 
-			var brandData = getItem.Item.FirstOrDefault(p => p.Key == "Data");
+			var categoryData = getItem.Item.FirstOrDefault(p => p.Key == "Data");
 
-			return JsonConvert.DeserializeObject<Brand>(Document.FromAttributeMap(brandData.Value.M).ToJson());
+			return JsonConvert.DeserializeObject<Category>(Document.FromAttributeMap(categoryData.Value.M).ToJson());
 		}
 
 		/// <inheritdoc />
-		public async Task LikeBrandAsync(
-			Brand brand,
+		public async Task LikeCategoryAsync(
+			Category category,
 			string username)
 		{
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
@@ -142,10 +92,10 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																										 .TableName,
 																								 ConditionExpression =
 																									 "attribute_not_exists(PK)",
-																								 Item = BrandLike
+																								 Item = CategoryLike
 																									 .GenerateKeys(
-																										 brand
-																											 .BrandName,
+																										 category
+																											 .Name,
 																										 username)
 																							 }
 																			   },
@@ -159,14 +109,14 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																									ConditionExpression
 																										= "attribute_exists(PK)",
 																									Key =
-																										brand.AsKeys(),
+																										category.AsKeys(),
 																									UpdateExpression =
 																										"ADD #data.#likes :incr",
 																									ExpressionAttributeNames
-																										= BrandLike
+																										= CategoryLike
 																											.GenerateExpressionAttributeNames(),
 																									ExpressionAttributeValues
-																										= BrandLike
+																										= CategoryLike
 																											.GenerateExpressionAttributeValues()
 																								}
 																			   }
@@ -179,7 +129,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 			}
 			catch (ConditionalCheckFailedException)
 			{
-				this._logger.LogWarning($"User {username} has tried to like {brand}");
+				this._logger.LogWarning($"User {username} has tried to like {category}");
 			}
 			catch (Exception e)
 			{
@@ -189,8 +139,8 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 		}
 
 		/// <inheritdoc />
-		public async Task WatchBrandAsync(
-			Brand brand,
+		public async Task WatchCategoryAsync(
+			Category category,
 			string username)
 		{
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
@@ -206,10 +156,10 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																										 .TableName,
 																								 ConditionExpression =
 																									 "attribute_not_exists(PK)",
-																								 Item = BrandWatch
+																								 Item = CategoryWatch
 																									 .GenerateKeys(
-																										 brand
-																											 .BrandName,
+																										 category
+																											 .Name,
 																										 username)
 																							 }
 																			   },
@@ -223,14 +173,14 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																									ConditionExpression
 																										= "attribute_exists(PK)",
 																									Key =
-																										brand.AsKeys(),
+																										category.AsKeys(),
 																									UpdateExpression =
 																										"ADD #data.#watcher :incr",
 																									ExpressionAttributeNames
-																										= BrandWatch
+																										= CategoryWatch
 																											.GenerateExpressionAttributeNames(),
 																									ExpressionAttributeValues
-																										= BrandWatch
+																										= CategoryWatch
 																											.GenerateExpressionAttributeValues()
 																								}
 																			   }
@@ -243,7 +193,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 			}
 			catch (ConditionalCheckFailedException)
 			{
-				this._logger.LogWarning($"User {username} has tried to like {brand}");
+				this._logger.LogWarning($"User {username} has tried to like {category}");
 			}
 			catch (Exception e)
 			{
@@ -253,8 +203,8 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 		}
 
 		/// <inheritdoc />
-		public async Task<IEnumerable<string>> FindWatchersForBrand(
-			string brandName)
+		public async Task<IEnumerable<string>> FindWatchersForCategory(
+			string categoryName)
 		{
 			var userList = new List<string>();
 
@@ -271,10 +221,9 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 																	{
 																		{
 																			":pk",
-																			new AttributeValue($"BRANDWATCH#{brandName}")
+																			new AttributeValue($"CATEGORYWATCH#{categoryName}")
 																		},
-																	},
-									Limit = 1
+																	}
 								};
 
 				if (exclusiveStartKey != null)
