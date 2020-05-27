@@ -60,7 +60,7 @@ namespace DynamoDbBook.SessionStore.Controllers
 
 			return new CreateSessionResponse()
 					   {
-						   SessionToken = response.SessionToken,
+						   SessionId = response.SessionId,
 						   ExpiresAt = response.ExpiresAt,
 					   };
 		}

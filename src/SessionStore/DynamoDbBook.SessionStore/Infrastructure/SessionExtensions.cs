@@ -20,7 +20,7 @@ namespace DynamoDbBook.SessionStore.Infrastructure
 
 			var attributeMap = new Dictionary<string, AttributeValue>(5);
 
-			attributeMap.Add("SessionToken", new AttributeValue(session.SessionToken.ToString()));
+			attributeMap.Add("SessionId", new AttributeValue(session.SessionId.ToString()));
 			attributeMap.Add("Username", new AttributeValue(session.Username));
 			attributeMap.Add("CreatedAt", new AttributeValue(session.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")));
 			attributeMap.Add("ExpiresAt", new AttributeValue(session.ExpiresAt.ToString("yyyy-MM-ddTHH:mm:ssZ")));

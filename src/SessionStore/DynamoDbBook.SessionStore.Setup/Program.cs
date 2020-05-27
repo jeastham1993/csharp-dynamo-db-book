@@ -30,7 +30,7 @@ namespace DynamoDbBook.SessionStore.Setup
 								  AttributeDefinitions = new List<AttributeDefinition>(2)
 															 {
 																 new AttributeDefinition(
-																	 "SessionToken",
+																	 "SessionId",
 																	 ScalarAttributeType.S),
 																 new AttributeDefinition(
 																	 "Username",
@@ -39,7 +39,7 @@ namespace DynamoDbBook.SessionStore.Setup
 								  KeySchema = new List<KeySchemaElement>(1)
 												  {
 													  new KeySchemaElement(
-														  "SessionToken",
+														  "SessionId",
 														  KeyType.HASH),
 												  },
 								  GlobalSecondaryIndexes = new List<GlobalSecondaryIndex>(1)

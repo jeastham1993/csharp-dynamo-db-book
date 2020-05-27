@@ -32,9 +32,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.BigDeals.Setup
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{DB2B88D3-FE21-49BA-8C17-40F282A614F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.GitHub", "src\GitHub\DynamoDbBook.GitHub\DynamoDbBook.GitHub.csproj", "{64BF6E76-4081-4EA7-BE94-D2CB4E249083}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.GitHub", "src\GitHub\DynamoDbBook.GitHub\DynamoDbBook.GitHub.csproj", "{64BF6E76-4081-4EA7-BE94-D2CB4E249083}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.GitHub.LocalSetup", "src\GitHub\DynamoDbBook.GitHub.LocalSetup\DynamoDbBook.GitHub.LocalSetup.csproj", "{C0FC7607-96A1-4D88-8C87-20470C8D4390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.GitHub.LocalSetup", "src\GitHub\DynamoDbBook.GitHub.LocalSetup\DynamoDbBook.GitHub.LocalSetup.csproj", "{C0FC7607-96A1-4D88-8C87-20470C8D4390}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.SessionStore.Serverless", "src\SessionStore\DynamoDbBook.SessionStore.Serverless\DynamoDbBook.SessionStore.Serverless.csproj", "{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -154,6 +156,18 @@ Global
 		{C0FC7607-96A1-4D88-8C87-20470C8D4390}.Release|x64.Build.0 = Release|Any CPU
 		{C0FC7607-96A1-4D88-8C87-20470C8D4390}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0FC7607-96A1-4D88-8C87-20470C8D4390}.Release|x86.Build.0 = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|x64.Build.0 = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|x64.ActiveCfg = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|x64.Build.0 = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,6 +187,7 @@ Global
 		{DB2B88D3-FE21-49BA-8C17-40F282A614F3} = {A693209E-6768-4040-BA7B-8E5ACEAC0546}
 		{64BF6E76-4081-4EA7-BE94-D2CB4E249083} = {DB2B88D3-FE21-49BA-8C17-40F282A614F3}
 		{C0FC7607-96A1-4D88-8C87-20470C8D4390} = {DB2B88D3-FE21-49BA-8C17-40F282A614F3}
+		{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD} = {26B1DCBD-7E7A-4E4A-9E34-4CCA2AB4C054}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFE411D5-7387-4896-9338-D3A09D92FDDD}

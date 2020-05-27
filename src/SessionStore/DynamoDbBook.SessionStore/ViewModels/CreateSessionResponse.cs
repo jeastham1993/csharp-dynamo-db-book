@@ -7,7 +7,7 @@ namespace DynamoDbBook.SessionStore.ViewModels
 {
     public class CreateSessionResponse
     {
-		public Guid SessionToken { get; set; }
+		public Guid SessionId { get; set; }
 
 		public DateTime ExpiresAt { get; set; }
     }

@@ -61,14 +61,14 @@ namespace DynamoDbBook.SessionStore.Infrastructure
 		{
 			var query = new QueryRequest(DynamoDbConstants.TableName)
 							{
-								KeyConditionExpression = "#sessionToken = :sessionToken",
+								KeyConditionExpression = "#SessionId = :SessionId",
 								ExpressionAttributeNames = new Dictionary<string, string>(1)
 															   {
-																   { "#sessionToken", "SessionToken" },
+																   { "#SessionId", "SessionId" },
 															   },
 								ExpressionAttributeValues = new Dictionary<string, AttributeValue>(1)
 																{
-																	{ ":sessionToken", new AttributeValue(token.ToString()) },
+																	{ ":SessionId", new AttributeValue(token.ToString()) },
 																},
 							};
 
@@ -119,8 +119,8 @@ namespace DynamoDbBook.SessionStore.Infrastructure
 																		   new Dictionary<string, AttributeValue>()
 																			   {
 																				   {
-																					   "SessionToken",
-																					   resultItem["SessionToken"]
+																					   "SessionId",
+																					   resultItem["SessionId"]
 																				   }
 																			   }
 																   }

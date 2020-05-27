@@ -19,12 +19,12 @@ namespace DynamoDbBook.SessionStore.Domain.Entities
 
 			return new Session()
 							  {
-								  SessionToken = Guid.NewGuid(), CreatedAt = DateTime.Now, Username = userName
+								  SessionId = Guid.NewGuid(), CreatedAt = DateTime.Now, Username = userName
 							  };
 		}
 
 		[JsonProperty]
-        public Guid SessionToken { get; private set; }
+        public Guid SessionId { get; private set; }
 
 		[JsonProperty]
 		public string Username { get; private set; }

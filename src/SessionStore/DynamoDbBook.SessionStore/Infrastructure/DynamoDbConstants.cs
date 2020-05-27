@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace DynamoDbBook.SessionStore.Infrastructure
 {
-    public static class DynamoDbConstants
+	public static class DynamoDbConstants
 	{
-		public static string TableName = "SessionStore";
+		public static string TableName { get; set; } = "SessionStore";
 	}
 }
