@@ -45,7 +45,7 @@ namespace DynamoDbBook.GitHub.Controllers
 		public async Task<IActionResult> GetRepoIssues(
 			string ownerName,
 			string repoName,
-			string status)
+			string status = "Open")
 		{
 			return new OkObjectResult(await this._repoRepository.GetIssuesAsync(ownerName, repoName, status).ConfigureAwait(false));
 		}
@@ -128,9 +128,10 @@ namespace DynamoDbBook.GitHub.Controllers
 		[HttpGet("{ownerName}/{repoName}/pr")]
 		public async Task<IActionResult> GetRepoPullRequests(
 			string ownerName,
-			string repoName)
+			string repoName,
+			string status = "Open")
 		{
-			return new OkObjectResult(await this._repoRepository.GetPullRequestsAsync(ownerName, repoName).ConfigureAwait(false));
+			return new OkObjectResult(await this._repoRepository.GetPullRequestsAsync(ownerName, repoName, status).ConfigureAwait(false));
 		}
 
 		[HttpGet("{ownerName}/{repoName}/stars")]

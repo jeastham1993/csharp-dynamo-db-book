@@ -33,7 +33,8 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 
 		Task<List<PullRequest>> GetPullRequestsAsync(
 			string ownerName,
-			string repoName);
+			string repoName,
+			string status);
 
 		Task<PullRequest> GetPullRequestAsync(
 			string ownerName,

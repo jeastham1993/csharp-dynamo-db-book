@@ -27,5 +27,10 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		public int PullRequestNumber { get; set; }
 
 		public string Reactions { get; set; }
+
+		public string PaddedPullRequestNumber =>
+			this.PullRequestNumber.ToString().PadLeft(
+				7,
+				'0');
     }
 }

@@ -11,7 +11,7 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 
 		public string Username { get; set; }
 
-		public List<string> Roles { get; set; }
+		public string Role { get; set; }
 
 		public DateTime MemberSince { get; set; }
     }

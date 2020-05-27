@@ -24,7 +24,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			this._interactions = interactions;
 		}
 
-		[HttpPost("{ownerName}/{repoName}/issue/{issueNumber}")]
+		[HttpPost("{ownerName}/{repoName}/issue/{issueNumber}/comment")]
 		public async Task<IActionResult> AddCommentToIssue(
 			string ownerName,
 			string repoName,
@@ -32,7 +32,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			[FromBody] AddCommentDTO comment)
 		{
 			return new OkObjectResult(
-				await this._interactions.AddCommentToIssueAsync(
+				await this._interactions.AddCommentAsync(
 					new IssueComment()
 						{
 							CommentorUsername = comment.Username,
@@ -43,7 +43,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						}));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/pr/{prNumber}")]
+		[HttpPost("{ownerName}/{repoName}/pr/{prNumber}/comment")]
 		public async Task<IActionResult> AddCommentToPullRequest(
 			string ownerName,
 			string repoName,
@@ -51,7 +51,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			[FromBody] AddCommentDTO comment)
 		{
 			return new OkObjectResult(
-				await this._interactions.AddCommentToPullRequestAsync(
+				await this._interactions.AddCommentAsync(
 					new PullRequestComment()
 						{
 							CommentorUsername = comment.Username,
@@ -70,7 +70,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			[FromBody] AddReactionDTO reaction)
 		{
 			return new OkObjectResult(
-				await this._interactions.AddReactionToCommentAsync(
+				await this._interactions.AddReactionAsync(
 					new CommentReaction()
 						{
 							OwnerName = ownerName,
@@ -81,7 +81,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						}));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/issue/{issueId}")]
+		[HttpPost("{ownerName}/{repoName}/issue/{issueId}/reaction")]
 		public async Task<IActionResult> AddReactionToIssue(
 			string ownerName,
 			string repoName,
@@ -89,18 +89,18 @@ namespace DynamoDbBook.GitHub.Controllers
 			[FromBody] AddReactionDTO reaction)
 		{
 			return new OkObjectResult(
-				await this._interactions.AddReactionToIssueAsync(
-					new IssueReaction()
-						{
-							OwnerName = ownerName,
-							Id = issueId,
-							ReactingUsername = reaction.Username,
-							RepoName = repoName,
-							ReactionType = reaction.Reaction
-						}));
+				await this._interactions.AddReactionAsync(
+					(new IssueReaction()
+						 {
+							 OwnerName = ownerName,
+							 Id = issueId,
+							 ReactingUsername = reaction.Username,
+							 RepoName = repoName,
+							 ReactionType = reaction.Reaction
+						 })));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/pr/{pullRequestId}")]
+		[HttpPost("{ownerName}/{repoName}/pr/{pullRequestId}/reaction")]
 		public async Task<IActionResult> AddReactionToPullRequest(
 			string ownerName,
 			string repoName,
@@ -108,20 +108,20 @@ namespace DynamoDbBook.GitHub.Controllers
 			[FromBody] AddReactionDTO reaction)
 		{
 			return new OkObjectResult(
-				await this._interactions.AddReactionToPullRequestAsync(
-					new PullRequestReaction()
-						{
-							OwnerName = ownerName,
-							Id = pullRequestId,
-							ReactingUsername = reaction.Username,
-							RepoName = repoName,
-							ReactionType = reaction.Reaction
-						}));
+				await this._interactions.AddReactionAsync(
+					(new PullRequestReaction()
+						 {
+							 OwnerName = ownerName,
+							 Id = pullRequestId,
+							 ReactingUsername = reaction.Username,
+							 RepoName = repoName,
+							 ReactionType = reaction.Reaction
+						 })));
 		}
 
 		[HttpPost("{ownerName}/{repoName}/star")]
 		public async Task<IActionResult> AddStarToRepo(
-			string ownerName,	
+			string ownerName,
 			string repoName,
 			[FromBody] AddStarDTO star)
 		{

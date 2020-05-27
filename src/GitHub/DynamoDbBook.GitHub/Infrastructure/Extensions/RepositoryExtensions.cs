@@ -51,6 +51,14 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 			return attributeMap;
 		}
 
+		public static Repository FromItem(Dictionary<string, AttributeValue> item)
+		{
+			var data = item.FirstOrDefault(p => p.Key == "Data");
+
+			return JsonConvert.DeserializeObject<Repository>(Document.FromAttributeMap(data.Value.M).ToJson());
+		}
+
+
 		public static Dictionary<string, AttributeValue> AsData(
 			this Repository repository)
 		{

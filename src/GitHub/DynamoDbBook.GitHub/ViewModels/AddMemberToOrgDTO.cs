@@ -9,6 +9,6 @@ namespace DynamoDbBook.GitHub.ViewModels
     {
         public string Username { get; set; }
 
-        public List<string> Roles { get; set; }
+        public string Role { get; set; }
     }
 }

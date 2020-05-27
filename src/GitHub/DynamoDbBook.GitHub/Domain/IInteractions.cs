@@ -10,20 +10,11 @@ namespace DynamoDbBook.GitHub.Domain
 {
 	public interface IInteractions
 	{
-		Task<IssueComment> AddCommentToIssueAsync(
-			IssueComment comment);
+		Task<Comment> AddCommentAsync(
+			Comment comment);
 
-		Task<PullRequestComment> AddCommentToPullRequestAsync(
-			PullRequestComment comment);
-
-		Task<CommentReaction> AddReactionToCommentAsync(
-			CommentReaction reaction);
-
-		Task<CommentReaction> AddReactionToIssueAsync(
-			IssueReaction reaction);
-
-		Task<CommentReaction> AddReactionToPullRequestAsync(
-			PullRequestReaction reaction);
+		Task<Reaction> AddReactionAsync(
+			Reaction reaction);
 
 		Task<Star> StarRepoAsync(
 			string ownerName,

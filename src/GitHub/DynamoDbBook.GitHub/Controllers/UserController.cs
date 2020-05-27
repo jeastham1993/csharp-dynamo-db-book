@@ -58,7 +58,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					{
 						MemberSince = DateTime.Now,
 						OrganizationName = organizationName,
-						Roles = member.Roles,
+						Role = member.Role,
 						Username = member.Username
 					});
 

@@ -41,9 +41,7 @@ namespace DynamoDbBook.GitHub.Infrastructure
 
 			var getItem = await this._client.GetItemAsync(getItemRequest).ConfigureAwait(false);
 
-			var data = getItem.Item.FirstOrDefault(p => p.Key == "Data");
-
-			return JsonConvert.DeserializeObject<Repository>(Document.FromAttributeMap(data.Value.M).ToJson());
+			return RepositoryExtensions.FromItem(getItem.Item);
 		}
 
 		/// <inheritdoc />
@@ -126,6 +124,12 @@ namespace DynamoDbBook.GitHub.Infrastructure
 		public async Task<Issue> CreateIssueAsync(
 			Issue issue)
 		{
+			var updatedRepo = await this.IncrementRepoCount(
+								  issue.OwnerName,
+								  issue.RepositoryName).ConfigureAwait(false);
+
+			issue.IssueNumber = updatedRepo.IssueAndPullRequestCount;
+
 			var putItemRequest = new PutItemRequest()
 									 {
 										 TableName = DynamoDbConstants.TableName,
@@ -158,7 +162,31 @@ namespace DynamoDbBook.GitHub.Infrastructure
 		public async Task<PullRequest> CreatePullRequestAsync(
 			PullRequest pullRequest)
 		{
-			throw new NotImplementedException();
+			var updatedRepo = await this.IncrementRepoCount(
+								  pullRequest.OwnerName,
+								  pullRequest.RepoName).ConfigureAwait(false);
+
+			pullRequest.PullRequestNumber = updatedRepo.IssueAndPullRequestCount;
+
+			var putItemRequest = new PutItemRequest()
+									 {
+										 TableName = DynamoDbConstants.TableName,
+										 Item = pullRequest.AsItem(),
+										 ConditionExpression = "attribute_not_exists(PK)"
+									 };
+
+			try
+			{
+				var result = await this._client.PutItemAsync(putItemRequest).ConfigureAwait(false);
+
+				return pullRequest;
+			}
+			catch (ConditionalCheckFailedException ex)
+			{
+				this._logger.LogError("Repo with this name already exists for account.");
+
+				return null;
+			}
 		}
 
 		/// <inheritdoc />
@@ -171,9 +199,53 @@ namespace DynamoDbBook.GitHub.Infrastructure
 		/// <inheritdoc />
 		public async Task<List<PullRequest>> GetPullRequestsAsync(
 			string ownerName,
-			string repoName)
+			string repoName,
+			string status)
 		{
-			throw new NotImplementedException();
+			var attributeNames = new Dictionary<string, string>(2);
+			attributeNames.Add("#gsi1pk", "GSI1PK");
+			attributeNames.Add("#gsi1sk", "GSI1SK");
+			attributeNames.Add("#data", "data");
+			attributeNames.Add("#status", "status");
+
+			var repo = new Repository() { OwnerName = ownerName, RepositoryName = repoName };
+
+			var attributeValues = new Dictionary<string, AttributeValue>(3);
+			attributeValues.Add(
+				":gsi1pk",
+				new AttributeValue($"REPO#{ownerName.ToLower()}#{repoName.ToLower()}"));
+			attributeValues.Add(
+				":gsi1sk",
+				new AttributeValue($"REPO#{ownerName.ToLower()}#{repoName.ToLower()}"));
+			attributeValues.Add(":status", new AttributeValue(status));
+
+			var queryRequest = new QueryRequest()
+								   {
+									   TableName = DynamoDbConstants.TableName,
+									   IndexName = "GSI1",
+									   KeyConditionExpression = "#gsi1pk = :gsi1pk AND #gsi1sk <= :gsi1sk",
+									   FilterExpression = "attribute_not_exists(#data.#status) OR #data.#status = :status",
+									   ExpressionAttributeNames = attributeNames,
+									   ExpressionAttributeValues = attributeValues,
+									   ScanIndexForward = false
+								   };
+
+			var queryResult = await this._client.QueryAsync(queryRequest).ConfigureAwait(false);
+
+			var response = new List<PullRequest>();
+
+			foreach (var item in queryResult.Items)
+			{
+				if (item["Type"].S == "PullRequest")
+				{
+					var responseData = item.FirstOrDefault(p => p.Key == "Data");
+
+					response.Add(
+						JsonConvert.DeserializeObject<PullRequest>(Document.FromAttributeMap(responseData.Value.M).ToJson()));
+				}
+			}
+
+			return response;
 		}
 
 		/// <inheritdoc />
@@ -223,6 +295,33 @@ namespace DynamoDbBook.GitHub.Infrastructure
 			int issueNumber)
 		{
 			throw new NotImplementedException();
+		}
+
+		private async Task<Repository> IncrementRepoCount(string ownerName, string repoName)
+		{
+			var repo = new Repository() { OwnerName = ownerName, RepositoryName = repoName };
+
+			var updateItemRequest = new UpdateItemRequest()
+										{
+											TableName = DynamoDbConstants.TableName,
+											Key = repo.AsKeys(),
+											ConditionExpression = "attribute_exists(PK)",
+											UpdateExpression = "set #data.#count = #data.#count + :inc",
+											ExpressionAttributeNames = new Dictionary<string, string>(2)
+																			{
+																				{ "#data", "Data" },
+																				{ "#count", "IssueAndPullRequestCount" },
+																			},
+											ExpressionAttributeValues = new Dictionary<string, AttributeValue>(1)
+																			{
+																				{ ":inc", new AttributeValue() { N = "1"} },
+																			},
+											ReturnValues = ReturnValue.ALL_NEW
+										};
+
+			var updateResponse = await this._client.UpdateItemAsync(updateItemRequest).ConfigureAwait(false);
+
+			return RepositoryExtensions.FromItem(updateResponse.Attributes);
 		}
 	}
 }

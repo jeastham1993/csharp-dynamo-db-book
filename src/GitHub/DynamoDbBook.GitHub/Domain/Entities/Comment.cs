@@ -33,5 +33,10 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		public abstract string TargetType { get; }
 
 		public abstract string Type { get; }
+
+		public string PaddedTargetNumber =>
+			this.TargetNumber.ToString().PadLeft(
+				7,
+				'0');
     }
 }
