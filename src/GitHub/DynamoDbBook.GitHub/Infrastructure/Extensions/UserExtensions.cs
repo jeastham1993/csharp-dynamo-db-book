@@ -35,19 +35,17 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 			return attributeMap;
 		}
 
-		public static Dictionary<string, AttributeValue> AsGsiPk(
+		public static string AsGsi3Pk(
 			this User user)
 		{
-			return new Dictionary<string, AttributeValue>(1)
-					   {
-						   { "GSI3PK", new AttributeValue($"ACCOUNT#{user.Username.ToLower()}") }
-					   };
+			return $"ACCOUNT#{user.Username.ToLower()}";
 		}
 
 		public static Dictionary<string, AttributeValue> AsGsi3(
 			this User user)
 		{
-			var attributes = user.AsGsiPk();
+			var attributes = new Dictionary<string, AttributeValue>();
+			attributes.Add("GSI3PK", new AttributeValue(user.AsGsi3Pk()));
 			attributes.Add("GSI3SK", new AttributeValue($"ACCOUNT#{user.Username.ToLower()}"));
 
 			return attributes;

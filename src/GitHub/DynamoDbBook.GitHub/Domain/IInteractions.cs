@@ -30,7 +30,7 @@ namespace DynamoDbBook.GitHub.Domain
 			string repoName,
 			int issueNumber);
 
-		Task<List<IssueComment>> GetCommentsForPullRequestAsync(
+		Task<List<PullRequestComment>> GetCommentsForPullRequestAsync(
 			string ownerName,
 			string repoName,
 			int prNumber);

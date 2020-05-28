@@ -4,12 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 
 using DynamoDbBook.GitHub.Domain.Entities;
 using DynamoDbBook.GitHub.Infrastructure.Extensions;
+using DynamoDbBook.SharedKernel;
 
 using Microsoft.Extensions.Logging;
+
+using Newtonsoft.Json;
 
 namespace DynamoDbBook.GitHub.Infrastructure
 {
@@ -30,21 +34,119 @@ namespace DynamoDbBook.GitHub.Infrastructure
 		public async Task<User> CreateUserAsync(
 			User user)
 		{
-			throw new NotImplementedException();
+			var putItemRequest = new PutItemRequest()
+			{
+				TableName = DynamoDbConstants.TableName,
+				Item = user.AsItem(),
+				ConditionExpression = "attribute_not_exists(PK)"
+			};
+
+			try
+			{
+				var result = await this._client.PutItemAsync(putItemRequest).ConfigureAwait(false);
+
+				return user;
+			}
+			catch (ConditionalCheckFailedException ex)
+			{
+				this._logger.LogError("Repo with this name already exists for account.");
+
+				return null;
+			}
 		}
 
 		/// <inheritdoc />
-		public async Task<Organization> GetUserAsync(
+		public async Task<User> GetUserAsync(
 			string userName)
 		{
-			throw new NotImplementedException();
+			var user = new User()
+			{
+				Username = userName
+			};
+
+			var getItemResult = await this._client.GetItemAsync(
+				                    new GetItemRequest()
+				                    {
+					                    TableName = DynamoDbConstants.TableName,
+					                    Key = user.AsKeys()
+				                    });
+
+			return DynamoHelper.CreateFromItem<User>(getItemResult.Item);
 		}
 
 		/// <inheritdoc />
 		public async Task<Organization> CreateOrganizationAsync(
 			Organization org)
 		{
-			throw new NotImplementedException();
+			var user = new User()
+			{
+				Username = org.OwnerName
+			};
+
+			var membership = new Membership()
+			{
+				MemberSince = DateTime.Now,
+				OrganizationName = org.Name,
+				Role = "Owner",
+				Username = org.OwnerName
+			};
+
+			var transactItems = new TransactWriteItemsRequest()
+			{
+				TransactItems = new List<TransactWriteItem>(3)
+				{
+					new TransactWriteItem()
+					{
+						Put = new Put()
+						{
+							Item = org.AsItem(),
+							TableName = DynamoDbConstants.TableName,
+							ConditionExpression = "attribute_not_exists(PK)"
+						}
+					},
+					new TransactWriteItem()
+					{
+						Put = new Put()
+						{
+							Item = membership.AsItem(),
+							TableName = DynamoDbConstants.TableName,
+							ConditionExpression = "attribute_not_exists(PK)"
+						}
+					},
+					new TransactWriteItem()
+					{
+						Update = new Update()
+						{
+							Key = user.AsKeys(),
+							TableName = DynamoDbConstants.TableName,
+							UpdateExpression = "SET #data.#organizations.#org = :role",
+							ExpressionAttributeNames = new Dictionary<string, string>(3)
+							{
+								{ "#data", "Data" },
+								{ "#organizations", "Organizations" },
+								{ "#org", org.Name.ToLower() }
+							},
+							ExpressionAttributeValues = new Dictionary<string, AttributeValue>(1)
+							{
+								{ ":role", new AttributeValue(membership.Role) }
+							}
+						}
+					}
+				}
+			};
+
+			try
+			{
+				var result = await this._client.TransactWriteItemsAsync(transactItems).ConfigureAwait(false);
+
+				return org;
+			}
+			catch (ConditionalCheckFailedException ex)
+			{
+				this._logger.LogError("Repo with this name already exists for account.");
+
+				return null;
+			}
 		}
 
 		/// <inheritdoc />
@@ -125,21 +227,63 @@ namespace DynamoDbBook.GitHub.Infrastructure
 		public async Task<Organization> GetOrganizationAsync(
 			string organizationName)
 		{
-			throw new NotImplementedException();
+			var org = new Organization()
+			{
+				Name = organizationName
+			};
+
+			var getItemResult = await this._client.GetItemAsync(
+				                    new GetItemRequest()
+				                    {
+					                    TableName = DynamoDbConstants.TableName,
+					                    Key = org.AsKeys()
+				                    });
+
+			return DynamoHelper.CreateFromItem<Organization>(getItemResult.Item);
 		}
 
 		/// <inheritdoc />
 		public async Task<List<User>> GetUsersForOrganizationAsync(
 			string organizationName)
 		{
-			throw new NotImplementedException();
-		}
+			var org = new Organization()
+			{
+				Name = organizationName
+			};
 
-		/// <inheritdoc />
-		public async Task<List<Organization>> GetOrganizationsForUserAsync(
-			string userName)
-		{
-			throw new NotImplementedException();
+			var queryRequest = new QueryRequest()
+			{
+				TableName = DynamoDbConstants.TableName,
+				KeyConditionExpression = "#pk = :pk",
+				ExpressionAttributeNames = new Dictionary<string, string>(1)
+				{
+					{ "#pk", "PK" }
+				},
+				ExpressionAttributeValues = new Dictionary<string, AttributeValue>(1)
+				{
+					{ ":pk", new AttributeValue(org.GetPk()) }
+				},
+				Limit = 26
+			};
+
+			var queryResult = await this._client.QueryAsync(queryRequest).ConfigureAwait(false);
+
+			if (queryResult.Count == 0)
+			{
+				throw new ArgumentException($"Organization {organizationName} not found");
+			}
+
+			var response = new List<User>(queryResult.Count - 1); // -1 to remove the actual organization object.
+
+			foreach (var item in queryResult.Items)
+			{
+				if (item["Type"].S == "Issue")
+				{
+					response.Add(DynamoHelper.CreateFromItem<User>(item));
+				}
+			}
+
+			return response;
 		}
 
 		/// <inheritdoc />
@@ -147,7 +291,34 @@ namespace DynamoDbBook.GitHub.Infrastructure
 			string organizationName,
 			PaymentPlan plan)
 		{
-			throw new NotImplementedException();
+			var org = new Organization()
+			{
+				Name = organizationName
+			};
+
+			var updateItem = new UpdateItemRequest()
+			{
+				TableName = DynamoDbConstants.TableName,
+				Key = org.AsKeys(),
+				ConditionExpression = "attribute_exists(PK) AND #type = :type",
+				UpdateExpression = "SET #data.#paymentPlan = :paymentPlan",
+				ExpressionAttributeNames = new Dictionary<string, string>(3)
+				{
+					{ "#data", "Data" },
+					{ "#paymentPlan", "PaymentPlan" },
+					{ "#type", "Type" }
+				},
+				ExpressionAttributeValues = new Dictionary<string, AttributeValue>(2)
+				{
+					{ ":type", new AttributeValue("Organization") },
+					{ ":paymentPlan", new AttributeValue() { M = Document.FromJson(JsonConvert.SerializeObject(plan)).ToAttributeMap()} }
+				},
+				ReturnValues = ReturnValue.ALL_NEW
+			};
+
+			var updateItemResponse = await this._client.UpdateItemAsync(updateItem).ConfigureAwait(false);
+
+			return DynamoHelper.CreateFromItem<Organization>(updateItemResponse.Attributes);
 		}
 
 		/// <inheritdoc />
@@ -155,7 +326,34 @@ namespace DynamoDbBook.GitHub.Infrastructure
 			string userName,
 			PaymentPlan plan)
 		{
-			throw new NotImplementedException();
+			var user = new User()
+			{
+				Username = userName
+			};
+
+			var updateItem = new UpdateItemRequest()
+			{
+				TableName = DynamoDbConstants.TableName,
+				Key = user.AsKeys(),
+				ConditionExpression = "attribute_exists(PK) AND #type = :type",
+				UpdateExpression = "SET #data.#paymentPlan = :paymentPlan",
+				ExpressionAttributeNames = new Dictionary<string, string>(3)
+				{
+					{ "#data", "Data" },
+					{ "#paymentPlan", "PaymentPlan" },
+					{ "#type", "Type" }
+				},
+				ExpressionAttributeValues = new Dictionary<string, AttributeValue>(2)
+				{
+					{ ":type", new AttributeValue("User") },
+					{ ":paymentPlan", new AttributeValue() { M = Document.FromJson(JsonConvert.SerializeObject(plan)).ToAttributeMap()} }
+				},
+				ReturnValues = ReturnValue.ALL_NEW
+			};
+
+			var updateItemResponse = await this._client.UpdateItemAsync(updateItem).ConfigureAwait(false);
+
+			return DynamoHelper.CreateFromItem<User>(updateItemResponse.Attributes);
 		}
 	}
 }

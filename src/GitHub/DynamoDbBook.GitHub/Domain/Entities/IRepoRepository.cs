@@ -44,7 +44,8 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		Task<Repository> ForkRepository(
 			string ownerName,
 			string repoName,
-			string forkedUserName);
+			string forkedUserName,
+			string description);
 
 		Task<List<Repository>> GetForksAsync(
 			string ownerName,

@@ -14,6 +14,12 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 {
     public static class OrganizationExtensions
     {
+	    public static string GetPk(
+		    this Organization organization)
+	    {
+		    return $"ACCOUNT#{organization.Name.ToLower()}";
+	    }
+
 		public static Dictionary<string, AttributeValue> AsKeys(this Organization organization)
 		{
 			if (organization == null)
@@ -26,7 +32,7 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 			attributeMap.Add(
 				"PK",
 				new AttributeValue(
-					$"ACCOUNT#{organization.Name.ToLower()}"));
+					organization.GetPk()));
 			attributeMap.Add(
 				"SK",
 				new AttributeValue($"ACCOUNT#{organization.Name.ToLower()}"));
@@ -34,19 +40,17 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 			return attributeMap;
 		}
 
-		public static Dictionary<string, AttributeValue> AsGsiPk(
+		public static string GetGsi3PK(
 			this Organization organization)
 		{
-			return new Dictionary<string, AttributeValue>(1)
-					   {
-						   { "GSI3PK", new AttributeValue($"ACCOUNT#{organization.Name.ToLower()}") }
-					   };
+			return $"ACCOUNT#{organization.Name.ToLower()}";
 		}
 
 		public static Dictionary<string, AttributeValue> AsGsi3(
 			this Organization organization)
 		{
-			var attributes = organization.AsGsiPk();
+			var attributes = new Dictionary<string, AttributeValue>();
+			attributes.Add("GSI3PK", new AttributeValue(organization.GetGsi3PK()));
 			attributes.Add("GSI3SK", new AttributeValue($"ACCOUNT#{organization.Name.ToLower()}"));
 
 			return attributes;

@@ -14,6 +14,13 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 {
     public static class CommentExtensions
     {
+	    public static string GetPk(
+		    this Comment comment)
+	    {
+		    return
+			    $"{comment.GetType().Name.ToUpper()}#{comment.OwnerName.ToLower()}#{comment.RepoName.ToLower()}#{comment.PaddedTargetNumber}";
+	    }
+
 		public static Dictionary<string, AttributeValue> AsKeys(this Comment comment)
 		{
 			if (comment == null)
@@ -26,7 +33,7 @@ namespace DynamoDbBook.GitHub.Infrastructure.Extensions
 			attributeMap.Add(
 				"PK",
 				new AttributeValue(
-					$"{comment.GetType().Name.ToUpper()}#{comment.OwnerName.ToLower()}#{comment.RepoName.ToLower()}#{comment.PaddedTargetNumber}"));
+					comment.GetPk()));
 			attributeMap.Add(
 				"SK",
 				new AttributeValue($"{comment.GetType().Name.ToUpper()}#{comment.Id}"));

@@ -10,13 +10,14 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		public User()
 			: base()
 		{
+			this.Organizations = new Dictionary<string, string>(0);
 		}
 
 		public string Username { get; set; }
 
 		public string Name { get; set; }
 
-		public IEnumerable<Organization> Organizations { get; set; }
+		public Dictionary<string, string> Organizations { get; set; }
 
 		public PaymentPlan PaymentPlan { get; set; }
     }

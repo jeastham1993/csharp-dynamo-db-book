@@ -48,6 +48,30 @@ namespace DynamoDbBook.GitHub.Controllers
 				await this._repoRepository.GetForOrganizationAsync(organizationName).ConfigureAwait(false));
 		}
 
+		[HttpPut("organization/{organizationName}/paymentplan")]
+		public async Task<IActionResult> UpdatePaymentPlanForOrganization(
+			string organizationName,
+			[FromBody] UpdatePaymentPlanDTO paymentPlan)
+		{
+			await this._userRepo.UpdatePaymentPlanForOrganization(
+				organizationName,
+				new PaymentPlan(paymentPlan.PlanType, DateTime.Now));
+
+			return this.Ok();
+		}
+
+		[HttpPut("user/{userName}/paymentplan")]
+		public async Task<IActionResult> UpdatePaymentPlanForUser(
+			string userName,
+			[FromBody] UpdatePaymentPlanDTO paymentPlan)
+		{
+			await this._userRepo.UpdatePaymentPlanForUser(
+				userName,
+				new PaymentPlan(paymentPlan.PlanType, DateTime.Now));
+
+			return this.Ok();
+		}
+
 		[HttpPost("organization/{organizationName}")]
 		public async Task<IActionResult> AddMemberToOrganization(
 			string organizationName,
@@ -55,12 +79,12 @@ namespace DynamoDbBook.GitHub.Controllers
 		{
 			await this._userRepo.AddUserToOrganizationAsync(
 				new Membership()
-					{
-						MemberSince = DateTime.Now,
-						OrganizationName = organizationName,
-						Role = member.Role,
-						Username = member.Username
-					});
+				{
+					MemberSince = DateTime.Now,
+					OrganizationName = organizationName,
+					Role = member.Role,
+					Username = member.Username
+				});
 
 			return this.Ok();
 		}

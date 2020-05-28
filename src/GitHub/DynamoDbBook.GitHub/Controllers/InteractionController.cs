@@ -39,7 +39,7 @@ namespace DynamoDbBook.GitHub.Controllers
 							Content = comment.Content,
 							OwnerName = ownerName,
 							RepoName = repoName,
-							TargetNumber = issueNumber
+							TargetNumber = issueNumber,
 						}));
 		}
 
@@ -85,7 +85,7 @@ namespace DynamoDbBook.GitHub.Controllers
 		public async Task<IActionResult> AddReactionToIssue(
 			string ownerName,
 			string repoName,
-			string issueId,
+			int issueId,
 			[FromBody] AddReactionDTO reaction)
 		{
 			return new OkObjectResult(
@@ -93,7 +93,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					(new IssueReaction()
 						 {
 							 OwnerName = ownerName,
-							 Id = issueId,
+							 TargetNumber = issueId,
 							 ReactingUsername = reaction.Username,
 							 RepoName = repoName,
 							 ReactionType = reaction.Reaction
@@ -104,7 +104,7 @@ namespace DynamoDbBook.GitHub.Controllers
 		public async Task<IActionResult> AddReactionToPullRequest(
 			string ownerName,
 			string repoName,
-			string pullRequestId,
+			int pullRequestId,
 			[FromBody] AddReactionDTO reaction)
 		{
 			return new OkObjectResult(
@@ -112,7 +112,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					(new PullRequestReaction()
 						 {
 							 OwnerName = ownerName,
-							 Id = pullRequestId,
+							 TargetNumber = pullRequestId,
 							 ReactingUsername = reaction.Username,
 							 RepoName = repoName,
 							 ReactionType = reaction.Reaction

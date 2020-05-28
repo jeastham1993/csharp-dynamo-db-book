@@ -20,7 +20,11 @@ namespace DynamoDbBook.GitHub.Domain.Entities.Reactions
 
 		public string Id { get; set; }
 
+		public string Identifier => $"{this.GetType().Name}#{this.Id}";
+
 		public string ReactingUsername { get; set; }
+
+		public int TargetNumber { get; set; }
 
         public abstract string Type { get; }
     }

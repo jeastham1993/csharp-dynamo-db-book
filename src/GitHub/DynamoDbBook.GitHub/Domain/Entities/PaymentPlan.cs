@@ -20,8 +20,10 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 			this.PlanStartDate = planStartDate;
 		}
 
+		[JsonProperty]
         public PaymentPlanType PlanType { get; private set; }
 
+        [JsonProperty]
         public DateTime PlanStartDate { get; private set; }
     }
 }

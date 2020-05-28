@@ -10,7 +10,7 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		Task<User> CreateUserAsync(
 			User user);
 
-		Task<Organization> GetUserAsync(
+		Task<User> GetUserAsync(
 			string userName);
 
 		Task<Organization> CreateOrganizationAsync(
@@ -24,9 +24,6 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 
 		Task<List<User>> GetUsersForOrganizationAsync(
 			string organizationName);
-
-		Task<List<Organization>> GetOrganizationsForUserAsync(
-			string userName);
 
 		Task<Organization> UpdatePaymentPlanForOrganization(
 			string organizationName,

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using DynamoDbBook.GitHub.Domain.Entities.Reactions;
+
 namespace DynamoDbBook.GitHub.Domain.Entities
 {
 	public class PullRequest : Entity
@@ -10,6 +12,15 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 		public PullRequest() : base()
 		{
 			this.Status = "Open";
+
+			this.Reactions = new Dictionary<string, int>(8);
+
+			foreach (var reactionType in ReactionHelpers.ReactionTypes)
+			{
+				this.Reactions.Add(
+					reactionType.Key,
+					0);
+			}
 		}
 
 		public string OwnerName { get; set; }
@@ -26,7 +37,7 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 
 		public int PullRequestNumber { get; set; }
 
-		public string Reactions { get; set; }
+		public Dictionary<string, int> Reactions { get; set; }
 
 		public string PaddedPullRequestNumber =>
 			this.PullRequestNumber.ToString().PadLeft(

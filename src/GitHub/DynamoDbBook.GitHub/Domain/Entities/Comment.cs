@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using DynamoDbBook.GitHub.Domain.Entities.Reactions;
 using DynamoDbBook.SharedKernel;
 
 using Newtonsoft.Json;
@@ -13,7 +14,20 @@ namespace DynamoDbBook.GitHub.Domain.Entities
     {
 		public Comment() : base()
 		{
-			this.Id = Ksuid.Generate().ToString();
+			this.Id = Ksuid.Generate().ToString().Replace(
+				"/",
+				string.Empty).Replace(
+				"+",
+				string.Empty);
+
+			this.Reactions = new Dictionary<string, int>(8);
+
+			foreach (var reactionType in ReactionHelpers.ReactionTypes)
+			{
+				this.Reactions.Add(
+					reactionType.Key,
+					0);
+			}
 		}
 
         public string Id { get; set; }
@@ -28,7 +42,7 @@ namespace DynamoDbBook.GitHub.Domain.Entities
 
 		public string Content { get; set; }
 
-		public string Reactions { get; set; }
+		public Dictionary<string, int> Reactions { get; set; }
 
 		public abstract string TargetType { get; }
 

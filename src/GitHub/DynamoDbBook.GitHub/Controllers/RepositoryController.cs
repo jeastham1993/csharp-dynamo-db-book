@@ -168,7 +168,8 @@ namespace DynamoDbBook.GitHub.Controllers
 				await this._repoRepository.ForkRepository(
 					ownerName,
 					repoName,
-					forkRepo.Username).ConfigureAwait(false));
+					forkRepo.Username,
+					forkRepo.Description).ConfigureAwait(false));
 		}
 
 		[HttpGet("{ownerName}/{repoName}/fork")]
@@ -200,7 +201,7 @@ namespace DynamoDbBook.GitHub.Controllers
 		}
 
 		[HttpPut("{ownerName}/{repoName}/pr/{prNumber}")]
-		public async Task<IActionResult> AddPullRequestToRepo(
+		public async Task<IActionResult> UpdatePullRequest(
 			string ownerName,
 			string repoName,
 			int prNumber,
@@ -211,7 +212,7 @@ namespace DynamoDbBook.GitHub.Controllers
 																								Content = pullRequest.Content,
 																								CreatorUsername = pullRequest.CreatorUsername,
 																								OwnerName = ownerName,
-																								PullRequestNumber = pullRequest.PullRequestNumber,
+																								PullRequestNumber = prNumber,
 																								RepoName = repoName,
 																								Title = pullRequest.Title,
 																							}).ConfigureAwait(false));

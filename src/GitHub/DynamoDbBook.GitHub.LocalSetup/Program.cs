@@ -40,6 +40,18 @@ namespace DynamoDbBook.GitHub.LocalSetup
 																 new AttributeDefinition(
 																	 "GSI1SK",
 																	 ScalarAttributeType.S),
+																 new AttributeDefinition(
+																	 "GSI2PK",
+																	 ScalarAttributeType.S),
+																 new AttributeDefinition(
+																	 "GSI2SK",
+																	 ScalarAttributeType.S),
+																 new AttributeDefinition(
+																	 "GSI3PK",
+																	 ScalarAttributeType.S),
+																 new AttributeDefinition(
+																	 "GSI3SK",
+																	 ScalarAttributeType.S),
 															 },
 								  KeySchema = new List<KeySchemaElement>(1)
 												  {
@@ -51,7 +63,7 @@ namespace DynamoDbBook.GitHub.LocalSetup
 														  KeyType.RANGE),
 												  },
 
-								  GlobalSecondaryIndexes = new List<GlobalSecondaryIndex>(1)
+								  GlobalSecondaryIndexes = new List<GlobalSecondaryIndex>(3)
 															   {
 																   new GlobalSecondaryIndex()
 																	   {
@@ -72,7 +84,47 @@ namespace DynamoDbBook.GitHub.LocalSetup
 																		   ProvisionedThroughput = new ProvisionedThroughput(
 																			   10,
 																			   10),
-																	   }
+																	   },
+																   new GlobalSecondaryIndex()
+																   {
+																	   IndexName = "GSI2",
+																	   KeySchema = new List<KeySchemaElement>(1)
+																	   {
+																		   new KeySchemaElement(
+																			   "GSI2PK",
+																			   KeyType.HASH),
+																		   new KeySchemaElement(
+																			   "GSI2SK",
+																			   KeyType.RANGE),
+																	   },
+																	   Projection = new Projection()
+																	   {
+																		   ProjectionType = ProjectionType.ALL
+																	   },
+																	   ProvisionedThroughput = new ProvisionedThroughput(
+																		   10,
+																		   10),
+																   },
+																   new GlobalSecondaryIndex()
+																   {
+																	   IndexName = "GSI3",
+																	   KeySchema = new List<KeySchemaElement>(1)
+																	   {
+																		   new KeySchemaElement(
+																			   "GSI3PK",
+																			   KeyType.HASH),
+																		   new KeySchemaElement(
+																			   "GSI3SK",
+																			   KeyType.RANGE),
+																	   },
+																	   Projection = new Projection()
+																	   {
+																		   ProjectionType = ProjectionType.ALL
+																	   },
+																	   ProvisionedThroughput = new ProvisionedThroughput(
+																		   10,
+																		   10),
+																   }
 															   },
 								  ProvisionedThroughput = new ProvisionedThroughput(
 									  10,
