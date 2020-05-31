@@ -33,13 +33,29 @@ package:
 
 functions:
   createSession:
-    handler: CsharpHandlers::DynamoDbBook.SessionStore.Serverless.CreateSessionHandler::CreateSession
+    handler: CsharpHandlers::DynamoDbBook.SessionStore.Serverless.CreateSession::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.SessionStore.zip
     events:
       - http:
           path: sessions
           method: post
+  getSession:
+    handler: CsharpHandlers::DynamoDbBook.SessionStore.Serverless.GetSession::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.SessionStore.zip
+    events:
+      - http:
+          path: sessions
+          method: get
+  deleteSessionsForUser:
+    handler: CsharpHandlers::DynamoDbBook.SessionStore.Serverless.DeleteSession::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.SessionStore.zip
+    events:
+      - http:
+          path: sessions/{username}
+          method: delete
 
 resources:
   Resources:

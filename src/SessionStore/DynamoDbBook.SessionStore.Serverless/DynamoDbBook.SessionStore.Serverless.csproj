@@ -11,10 +11,14 @@
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.0.1" />
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DynamoDbBook.SessionStore\DynamoDbBook.SessionStore.csproj" />
+    <ProjectReference Include="..\DynamoDbBook.SessionStore.Core\DynamoDbBook.SessionStore.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.ECommerce.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class OrderController : ControllerBase
     {
         private readonly ILogger<OrderController> _logger;
@@ -28,7 +27,7 @@ namespace DynamoDbBook.ECommerce.Controllers
 		}
 		
 
-		[HttpGet("{username}/orders/{orderId}")]
+		[HttpGet("customers/{username}/orders/{orderId}")]
 		public async Task<ActionResult<Order>> GetOrder(string username, string orderId)
 		{
 			var createdOrder = await this._orderRepo.GetOrderAsync(
@@ -45,7 +44,7 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpGet("{username}/orders")]
+		[HttpGet("customers/{username}/orders")]
 		public async Task<ActionResult<IEnumerable<Order>>> GetOrdersForCustomer(string username)
 		{
 			var orders = await this._orderRepo.GetOrdersForCustomerAsync(
@@ -61,12 +60,13 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpPost("customers/{username}/orders")]
 		public async Task<ActionResult<Order>> CreateOrder(
+			string username,
 			[FromBody] OrderDTO order)
 		{
 			var newOrder = Order.Create(
-				order.Username,
+				username,
 				new Address(
 					order.Address.Name,
 					order.Address.StreetAddress,
@@ -91,13 +91,15 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpPut("{username}/orders")]
+		[HttpPost("customers/{username}/orders/{orderId}/status")]
 		public async Task<ActionResult<Order>> UpdateOrderStatus(
 			string username,
+			string orderId,
 			[FromBody] UpdateOrderStatusDTO updateOrderStatusReq)
 		{
 			return await this._orderRepo.UpdateOrderStatusAsync(
-					   updateOrderStatusReq.Order,
+					   username,
+					   orderId,
 					   updateOrderStatusReq.NewStatus).ConfigureAwait(false);
 		}
     }

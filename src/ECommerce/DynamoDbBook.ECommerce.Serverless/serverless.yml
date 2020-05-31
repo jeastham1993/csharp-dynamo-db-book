@@ -1,0 +1,126 @@
+service: e-commerce-csharp
+
+provider:
+  name: aws
+  runtime: dotnetcore3.1
+  stage: prod
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:Query"
+        - "dynamodb:UpdateItem"
+      Resource:
+        - Fn::GetAtt:
+          - EcommerceTable
+          - Arn
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - EcommerceTable
+              - Arn
+            - "index/GSI1"
+
+  environment:
+    TABLE_NAME: { Ref: EcommerceTable }
+
+package:
+  individually: true
+
+functions:
+  createCustomer:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.CustomerEndpoints.CreateCustomer::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers
+          method: post
+  getCustomer:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.CustomerEndpoints.GetCustomer::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}
+          method: get
+  editAddressForCustomer:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.CustomerEndpoints.AddAddress::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/addresses
+          method: post
+  deleteAddressForCustomer:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.CustomerEndpoints.DeleteAddress::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/addresses/{name}
+          method: delete
+  createOrder:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.OrderEndpoints.CreateOrder::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/orders
+          method: post
+  updateStatusForOrder:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.OrderEndpoints.UpdateOrderStatus::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/orders/{orderId}/status
+          method: post
+  getOrdersForCustomer:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.OrderEndpoints.GetOrdersForCustomer::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/orders
+          method: get
+  getOrder:
+    handler: CsharpHandlers::DynamoDbBook.ECommerce.Serverless.OrderEndpoints.GetOrder::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.ECommerce.zip
+    events:
+      - http:
+          path: customers/{username}/orders/{orderId}
+          method: get
+
+resources:
+  Resources:
+    EcommerceTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        AttributeDefinitions: 
+          - AttributeName: "PK"
+            AttributeType: "S"
+          - AttributeName: "SK"
+            AttributeType: "S"
+          - AttributeName: "GSI1PK"
+            AttributeType: "S"
+          - AttributeName: "GSI1SK"
+            AttributeType: "S"
+        KeySchema: 
+          - AttributeName: "PK"
+            KeyType: "HASH"
+          - AttributeName: "SK"
+            KeyType: "RANGE"
+        BillingMode: "PAY_PER_REQUEST"
+        GlobalSecondaryIndexes:
+          - IndexName: 'GSI1'
+            KeySchema:
+            - AttributeName: "GSI1PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI1SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL

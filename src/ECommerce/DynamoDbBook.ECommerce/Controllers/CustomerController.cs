@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.ECommerce.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
         private readonly ILogger<CustomerController> _logger;
@@ -26,10 +25,10 @@ namespace DynamoDbBook.ECommerce.Controllers
 			this._customerRepo = customerRepo;
 		}
 
-		[HttpGet]
-		public async Task<ActionResult<Customer>> GetCustomer(string userName)
+		[HttpGet("customers/{username}")]
+		public async Task<ActionResult<Customer>> GetCustomer(string username)
 		{
-			var customer = await this._customerRepo.GetCustomerAsync(userName).ConfigureAwait(false);
+			var customer = await this._customerRepo.GetCustomerAsync(username).ConfigureAwait(false);
 
 			if (customer != null)
 			{
@@ -41,7 +40,7 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpPost]
+		[HttpPost("customers")]
 		public async Task<ActionResult<Customer>> CreateCustomer(
 			[FromBody] CreateCustomerDTO createCustomer)
 		{
@@ -69,14 +68,15 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpPut]
+		[HttpPost("customers/{username}/addresses")]
 		public async Task<ActionResult<Customer>> AddAddress(
+			string username,
 			[FromBody] UpdateCustomerDTO customerUpdate)
 		{
 			try
 			{
 				await this._customerRepo.AddAddressAsync(
-					customerUpdate.Username,
+					username,
 					new Address(
 						customerUpdate.Address.Name,
 						customerUpdate.Address.StreetAddress,
@@ -91,14 +91,14 @@ namespace DynamoDbBook.ECommerce.Controllers
 			}
 		}
 
-		[HttpDelete("{username}/address")]
-		public async Task<ActionResult<Customer>> DeleteAddress(string username, string addressName)
+		[HttpDelete("customers/{username}/address/{name}")]
+		public async Task<ActionResult<Customer>> DeleteAddress(string username, string name)
 		{
 			try
 			{
 				await this._customerRepo.DeleteAddressAsync(
 					username,
-					addressName);
+					name);
 
 				return this.Ok();
 			}

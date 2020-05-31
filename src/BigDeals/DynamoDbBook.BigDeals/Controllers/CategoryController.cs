@@ -40,10 +40,10 @@ namespace DynamoDbBook.BigDeals.Controllers
 		public async Task<Category> UpdateCategory(
 			[FromBody] CategoryDTO category)
 		{
-			return await this._categoryRepository.CreateOrUpdateAsync(
-					   Category.Create(
-						   category.CategoryName,
-						   category.FeaturedDeals));
+				return await this._categoryRepository.CreateOrUpdateAsync(
+						   Category.Create(
+							   category.CategoryName,
+							   category.FeaturedDeals));
 		}
 
 		[HttpGet("{categoryName}")]
