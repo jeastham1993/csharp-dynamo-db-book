@@ -10,5 +10,7 @@ namespace DynamoDbBook.GitHub.ViewModels
         public string Username { get; set; }
 
         public string Reaction { get; set; }
+
+        public int TargetNumber { get; set; }
     }
 }

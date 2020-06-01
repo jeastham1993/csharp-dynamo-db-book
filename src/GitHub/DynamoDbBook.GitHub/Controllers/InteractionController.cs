@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace DynamoDbBook.GitHub.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
 	public class InteractionController : ControllerBase
 	{
 		private readonly IInteractions _interactions;
@@ -24,7 +23,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			this._interactions = interactions;
 		}
 
-		[HttpPost("{ownerName}/{repoName}/issue/{issueNumber}/comment")]
+		[HttpPost("repos/{ownerName}/{repoName}/issues/{issueNumber}/comments")]
 		public async Task<IActionResult> AddCommentToIssue(
 			string ownerName,
 			string repoName,
@@ -43,7 +42,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						}));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/pr/{prNumber}/comment")]
+		[HttpPost("repos/{ownerName}/{repoName}/pulls/{prNumber}/comments")]
 		public async Task<IActionResult> AddCommentToPullRequest(
 			string ownerName,
 			string repoName,
@@ -62,7 +61,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						}));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/comment/{commentId}")]
+		[HttpPost("repos/{ownerName}/{repoName}/comments/{commentId}/reactions")]
 		public async Task<IActionResult> AddReactionToComment(
 			string ownerName,
 			string repoName,
@@ -76,12 +75,13 @@ namespace DynamoDbBook.GitHub.Controllers
 							OwnerName = ownerName,
 							Id = commentId,
 							ReactingUsername = reaction.Username,
+							TargetNumber = reaction.TargetNumber,
 							RepoName = repoName,
 							ReactionType = reaction.Reaction
 						}));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/issue/{issueId}/reaction")]
+		[HttpPost("repos/{ownerName}/{repoName}/issues/{issueId}/reactions")]
 		public async Task<IActionResult> AddReactionToIssue(
 			string ownerName,
 			string repoName,
@@ -100,7 +100,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						 })));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/pr/{pullRequestId}/reaction")]
+		[HttpPost("repos/{ownerName}/{repoName}/pulls/{pullRequestId}/reactions")]
 		public async Task<IActionResult> AddReactionToPullRequest(
 			string ownerName,
 			string repoName,
@@ -119,7 +119,7 @@ namespace DynamoDbBook.GitHub.Controllers
 						 })));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/star")]
+		[HttpPost("repos/{ownerName}/{repoName}/star")]
 		public async Task<IActionResult> AddStarToRepo(
 			string ownerName,
 			string repoName,

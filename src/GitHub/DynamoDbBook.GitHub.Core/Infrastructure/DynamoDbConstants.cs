@@ -7,6 +7,6 @@ namespace DynamoDbBook.GitHub.Infrastructure
 {
     public static class DynamoDbConstants
 	{
-		public static string TableName => "GitHub";
+		public static string TableName { get; set; } = "GitHub";
 	}
 }

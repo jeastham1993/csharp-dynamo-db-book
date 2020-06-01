@@ -12,8 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DynamoDbBook.GitHub.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
-    public class RepositoryController : ControllerBase
+	public class RepositoryController : ControllerBase
     {
 		private readonly IRepoRepository _repoRepository;
 		private readonly IInteractions _interactions;
@@ -26,14 +25,14 @@ namespace DynamoDbBook.GitHub.Controllers
 			this._interactions = interactions;
 		}
 
-		[HttpPost]
+		[HttpPost("repos")]
 		public async Task<IActionResult> Create(
 			Repository repository)
 		{
 			return new OkObjectResult(await this._repoRepository.CreateAsync(repository).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}")]
+		[HttpGet("repos/{ownerName}/{repoName}")]
 		public async Task<IActionResult> GetRepo(
 			string ownerName,
 			string repoName)
@@ -41,7 +40,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			return new OkObjectResult(await this._repoRepository.GetAsync(ownerName, repoName).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/issue")]
+		[HttpGet("repos/{ownerName}/{repoName}/issues")]
 		public async Task<IActionResult> GetRepoIssues(
 			string ownerName,
 			string repoName,
@@ -50,7 +49,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			return new OkObjectResult(await this._repoRepository.GetIssuesAsync(ownerName, repoName, status).ConfigureAwait(false));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/issue")]
+		[HttpPost("repos/{ownerName}/{repoName}/issues")]
 		public async Task<IActionResult> AddIssueToRepo(
 			string ownerName,
 			string repoName,
@@ -67,7 +66,7 @@ namespace DynamoDbBook.GitHub.Controllers
 																					  }).ConfigureAwait(false));
 		}
 
-		[HttpPut("{ownerName}/{repoName}/issue/{issueNumber}")]
+		[HttpPut("repos/{ownerName}/{repoName}/issues/{issueNumber}")]
 		public async Task<IActionResult> UpdateIssue(
 			string ownerName,
 			string repoName,
@@ -86,7 +85,7 @@ namespace DynamoDbBook.GitHub.Controllers
 																					  }).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/issue/{issueNumber}/comments")]
+		[HttpGet("repos/{ownerName}/{repoName}/issues/{issueNumber}/comments")]
 		public async Task<IActionResult> GetCommentsForIssue(
 			string ownerName,
 			string repoName,	
@@ -99,7 +98,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					issueNumber).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/issue/{issueNumber}")]
+		[HttpGet("repos/{ownerName}/{repoName}/issues/{issueNumber}")]
 		public async Task<IActionResult> GetIssue(
 			string ownerName,
 			string repoName,	
@@ -112,7 +111,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					issueNumber).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/pr/{prNumber}")]
+		[HttpGet("repos/{ownerName}/{repoName}/pulls/{prNumber}")]
 		public async Task<IActionResult> GetPullRequest(
 			string ownerName,
 			string repoName,	
@@ -125,7 +124,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					prNumber).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/pr")]
+		[HttpGet("repos/{ownerName}/{repoName}/pulls")]
 		public async Task<IActionResult> GetRepoPullRequests(
 			string ownerName,
 			string repoName,
@@ -134,7 +133,7 @@ namespace DynamoDbBook.GitHub.Controllers
 			return new OkObjectResult(await this._repoRepository.GetPullRequestsAsync(ownerName, repoName, status).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/stars")]
+		[HttpGet("repos/{ownerName}/{repoName}/stars")]
 		public async Task<IActionResult> GetStargazers(
 			string ownerName,
 			string repoName)
@@ -145,7 +144,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					repoName).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/pr/{pullRequestNumber}/comments")]
+		[HttpGet("repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/comments")]
 		public async Task<IActionResult> GetCommentsForPullRequest(
 			string ownerName,
 			string repoName,	
@@ -158,7 +157,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					pullRequestNumber).ConfigureAwait(false));
 		}
 
-		[HttpPut("{ownerName}/{repoName}/fork")]
+		[HttpPut("repos/{ownerName}/{repoName}/forks")]
 		public async Task<IActionResult> ForkRepo(
 			string ownerName,
 			string repoName,
@@ -172,7 +171,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					forkRepo.Description).ConfigureAwait(false));
 		}
 
-		[HttpGet("{ownerName}/{repoName}/fork")]
+		[HttpGet("repos/{ownerName}/{repoName}/forks")]
 		public async Task<IActionResult> GetForksForRepo(
 			string ownerName,
 			string repoName)
@@ -183,7 +182,7 @@ namespace DynamoDbBook.GitHub.Controllers
 					repoName).ConfigureAwait(false));
 		}
 
-		[HttpPost("{ownerName}/{repoName}/pr")]
+		[HttpPost("repos/{ownerName}/{repoName}/pulls")]
 		public async Task<IActionResult> AddPullRequestToRepo(
 			string ownerName,
 			string repoName,
@@ -200,7 +199,7 @@ namespace DynamoDbBook.GitHub.Controllers
 																							}).ConfigureAwait(false));
 		}
 
-		[HttpPut("{ownerName}/{repoName}/pr/{prNumber}")]
+		[HttpPut("repos/{ownerName}/{repoName}/pulls/{prNumber}")]
 		public async Task<IActionResult> UpdatePullRequest(
 			string ownerName,
 			string repoName,

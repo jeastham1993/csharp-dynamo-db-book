@@ -55,6 +55,7 @@ namespace DynamoDbBook.GitHub.Infrastructure
 					}.AsKeys();
 					break;
 			}
+
 			var transactWrite = new TransactWriteItemsRequest()
 			{
 				TransactItems = new List<TransactWriteItem>(2)
@@ -107,6 +108,7 @@ namespace DynamoDbBook.GitHub.Infrastructure
 					{
 						OwnerName = reaction.OwnerName,
 						RepoName = reaction.RepoName,
+						Id = reaction.Id,
 						TargetNumber = reaction.TargetNumber
 					}.AsKeys();
 					break;
