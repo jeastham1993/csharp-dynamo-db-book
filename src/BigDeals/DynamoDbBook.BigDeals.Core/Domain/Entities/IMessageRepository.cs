@@ -10,11 +10,15 @@ namespace DynamoDbBook.BigDeals.Domain.Entities
 		Task<Message> CreateAsync(
 			Message messageToCreate);
 
+		Task<List<Message>> CreateBatchAsync(
+			List<Message> messagesToCreate);
+
 		Task<IEnumerable<Message>> FindAllForUserAsync(
 			string username,
 			bool onlyUnread);
 
 		Task MarkMessageAsRead(
-			Message message);
+			string username,
+			string messageId);
 	}
 }

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.BigDeals.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
 	public class UserController : ControllerBase
     {
 		private readonly ILogger<UserController> _logger;
@@ -26,7 +25,7 @@ namespace DynamoDbBook.BigDeals.Controllers
 			this._userRepository = userRepository;
 		}
 
-		[HttpPost]
+		[HttpPost("users")]
 		public async Task<User> Create(
 			[FromBody] UserDTO user)
 		{
@@ -34,10 +33,16 @@ namespace DynamoDbBook.BigDeals.Controllers
 					   .ConfigureAwait(false);
 		}
 
-		[HttpGet]
+		[HttpGet("users")]
 		public async Task<IEnumerable<User>> List()
 		{
 			return await this._userRepository.GetAllUsersAsync().ConfigureAwait(false);
+		}
+
+		[HttpGet("users/{username}")]
+		public async Task<User> GetUser(string username)
+		{
+			return await this._userRepository.GetUserAsync(username).ConfigureAwait(false);
 		}
     }
 }

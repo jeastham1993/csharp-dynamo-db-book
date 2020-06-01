@@ -126,9 +126,11 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 		/// <inheritdoc />
 		public async Task LikeBrandAsync(
-			Brand brand,
+			string brandName,
 			string username)
 		{
+			var brand = new Brand(){BrandName = brandName};
+
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
 											   {
 												   TransactItems = new List<TransactWriteItem>(2)
@@ -190,9 +192,11 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 		/// <inheritdoc />
 		public async Task WatchBrandAsync(
-			Brand brand,
+			string brandName,
 			string username)
 		{
+			var brand = new Brand(){BrandName = brandName};
+
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
 											   {
 												   TransactItems = new List<TransactWriteItem>(2)

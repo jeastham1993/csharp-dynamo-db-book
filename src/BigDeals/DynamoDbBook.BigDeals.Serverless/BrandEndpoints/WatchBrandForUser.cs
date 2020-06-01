@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
+using Amazon.DynamoDBv2.Model;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 
 using DynamoDbBook.BigDeals.Domain.Entities;
-using DynamoDbBook.BigDeals.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
-namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
+namespace DynamoDbBook.BigDeals.Serverless.BrandEndpoints
 {
 	public class WatchBrandForUser
 	{
@@ -31,16 +30,35 @@ namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
 			APIGatewayProxyRequest request,
 			ILambdaContext context)
 		{
-			await this._brandRepository.WatchBrandAsync(
-				            Brand.Create(
-					            request.PathParameters["name"],
-					            string.Empty),
-				            request.PathParameters["username"]).ConfigureAwait(false);
-
-			return new APIGatewayProxyResponse
+			try
 			{
-				StatusCode = 200
-			};
+				context.Logger.Log(request.PathParameters["name"]);
+
+				await this._brandRepository.WatchBrandAsync(
+					HttpUtility.UrlDecode(request.PathParameters["name"]),
+					HttpUtility.UrlDecode(request.PathParameters["username"])).ConfigureAwait(false);
+
+				return new APIGatewayProxyResponse
+				{
+					StatusCode = 200
+				};
+			}
+			catch (ConditionalCheckFailedException)
+			{
+				return new APIGatewayProxyResponse
+				{
+					StatusCode = 500,
+					Body = $"Brand {request.PathParameters["name"]} not found"
+				};
+			}
+			catch (Exception ex)
+			{
+				return new APIGatewayProxyResponse
+				{
+					StatusCode = 500,
+					Body = $"{request.PathParameters["name"]}{Environment.NewLine}{JsonConvert.SerializeObject(ex)}"
+				};
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System.Text;
 
 using Amazon.DynamoDBv2;
 
+using DynamoDbBook.BigDeals.Core.Domain.Request;
 using DynamoDbBook.BigDeals.Domain.Entities;
 using DynamoDbBook.BigDeals.Infrastructure;
 
@@ -26,6 +27,7 @@ namespace DynamoDbBook.BigDeals.Serverless
 		    services.AddTransient<ICategoryRepository, CategoryRepository>();
 		    services.AddTransient<IMessageRepository, MessageRepository>();
 		    services.AddTransient<IUserRepository, UserRepository>();
+		    services.AddSingleton<SendHotDealInteractor>();
 
 		    return services;
 	    }

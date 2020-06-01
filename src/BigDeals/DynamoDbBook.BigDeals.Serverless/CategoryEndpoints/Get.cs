@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Web;
 
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 
 using DynamoDbBook.BigDeals.Domain.Entities;
-using DynamoDbBook.BigDeals.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
-namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
+namespace DynamoDbBook.BigDeals.Serverless.CategoryEndpoints
 {
 	public class Get
 	{
@@ -31,7 +28,7 @@ namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
 			APIGatewayProxyRequest request,
 			ILambdaContext context)
 		{
-			var category = await this._categoryRepository.GetCategoryAsync(request.PathParameters["name"])
+			var category = await this._categoryRepository.GetCategoryAsync(HttpUtility.UrlDecode(request.PathParameters["name"]))
 				               .ConfigureAwait(false);
 
 			if (category != null)

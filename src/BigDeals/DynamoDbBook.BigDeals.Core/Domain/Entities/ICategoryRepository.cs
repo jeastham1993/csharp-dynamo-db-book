@@ -14,11 +14,11 @@ namespace DynamoDbBook.BigDeals.Domain.Entities
 			string categoryName);
 
 		Task LikeCategoryAsync(
-			Category category,
+			string categoryName,
 			string username);
 
 		Task WatchCategoryAsync(
-			Category category,
+			string categoryName,
 			string username);
 
 		Task<IEnumerable<string>> FindWatchersForCategory(

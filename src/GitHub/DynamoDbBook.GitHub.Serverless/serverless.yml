@@ -1,0 +1,285 @@
+service: github-csharp
+
+provider:
+  name: aws
+  runtime: dotnetcore3.1
+  stage: prod
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:ConditionCheckItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:Query"
+        - "dynamodb:UpdateItem"
+      Resource:
+        - Fn::GetAtt:
+          - GitHubTable
+          - Arn
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI1"
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI2"
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI3"
+
+  environment:
+    TABLE_NAME: { Ref: GitHubTable }
+
+package:
+  individually: true
+
+functions:
+  createRepo:
+    handler: handlers/createRepo.handler
+    events:
+      - http:
+          path: repos
+          method: post
+  getRepo:
+    handler: handlers/getRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}
+          method: get
+  addIssueToRepo:
+    handler: handlers/addIssueToRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues
+          method: post
+  getRepoAndIssues:
+    handler: handlers/getRepoAndIssues.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues
+          method: get
+  getIssue:
+    handler: handlers/getIssue.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}
+          method: get
+  updateIssue:
+    handler: handlers/updateIssue.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}
+          method: post 
+  addCommentToIssue:
+    handler: handlers/addCommentToIssue.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/comments
+          method: post
+  getCommentsForIssue:
+    handler: handlers/getCommentsForIssue.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/comments
+          method: get
+  addReactionToIssue:
+    handler: handlers/addReactionToIssue.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/reactions
+          method: post
+  addPullRequestToRepo:
+    handler: handlers/addPullRequestToRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls
+          method: post
+  getRepoAndPullRequests:
+    handler: handlers/getRepoAndPullRequests.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls
+          method: get
+  getPullRequest:
+    handler: handlers/getPullRequest.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}
+          method: get
+  updatePullRequest:
+    handler: handlers/updatePullRequest.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}
+          method: post
+  addCommentToPullRequest:
+    handler: handlers/addCommentToPullRequest.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/comments
+          method: post
+  getCommentsForPullRequest:
+    handler: handlers/getCommentsForPullRequest.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/comments
+          method: get
+  addReactionToPullRequest:
+    handler: handlers/addReactionToPullRequest.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/reactions
+          method: post
+  addStarToRepo:
+    handler: handlers/addStarToRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/stars
+          method: post
+  getStargazersForRepo:
+    handler: handlers/getStargazersForRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/stars
+          method: get 
+  forkRepo:
+    handler: handlers/forkRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/forks
+          method: post
+  getForksForRepo:
+    handler: handlers/getForksForRepo.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/forks
+          method: get
+  addReactionToComment:
+    handler: handlers/addReactionToComment.handler
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/comments/{commentId}/reactions
+          method: post
+  createUser:
+    handler: handlers/createUser.handler
+    events:
+      - http:
+          path: users
+          method: post
+  getUser:
+    handler: handlers/getUser.handler
+    events:
+      - http:
+          path: users/{username}
+          method: get
+  getUserAndRepos:
+    handler: handlers/getUserAndRepos.handler
+    events:
+      - http:
+          path: users/{username}/repos
+          method: get
+  updatePaymentPlanForUser:
+    handler: handlers/updatePaymentPlanForUser.handler
+    events:
+      - http:
+          path: users/{username}/payment
+          method: post
+  createOrganization:
+    handler: handlers/createOrganization.handler
+    events:
+      - http:
+          path: organizations
+          method: post
+  getOrganization:
+    handler: handlers/getOrganization.handler
+    events:
+      - http:
+          path: organizations/{organizationName}
+          method: get
+  getOrganizationAndMembers:
+    handler: handlers/getOrganizationAndMembers.handler
+    events:
+      - http:
+          path: organizations/{organizationName}/members
+          method: get
+  addMemberToOrganization:
+    handler: handlers/addMemberToOrganization.handler
+    events:
+      - http:
+          path: organizations/{organizationName}/members
+          method: post
+  getOrganizationAndRepos:
+    handler: handlers/getOrganizationAndRepos.handler
+    events:
+      - http:
+          path: organizations/{organizationName}/repos
+          method: get
+  updatePaymentPlanForOrganization:
+    handler: handlers/updatePaymentPlanForOrganization.handler
+    events:
+      - http:
+          path: organizations/{organizationName}/payment
+          method: post
+
+resources:
+  Resources:
+    GitHubTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        AttributeDefinitions: 
+          - AttributeName: "PK"
+            AttributeType: "S"
+          - AttributeName: "SK"
+            AttributeType: "S"
+          - AttributeName: "GSI1PK"
+            AttributeType: "S"
+          - AttributeName: "GSI1SK"
+            AttributeType: "S"
+          - AttributeName: "GSI2PK"
+            AttributeType: "S"
+          - AttributeName: "GSI2SK"
+            AttributeType: "S"
+          - AttributeName: "GSI3PK"
+            AttributeType: "S"
+          - AttributeName: "GSI3SK"
+            AttributeType: "S"
+        KeySchema: 
+          - AttributeName: "PK"
+            KeyType: "HASH"
+          - AttributeName: "SK"
+            KeyType: "RANGE"
+        BillingMode: "PAY_PER_REQUEST"
+        GlobalSecondaryIndexes:
+          - IndexName: 'GSI1'
+            KeySchema:
+            - AttributeName: "GSI1PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI1SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+          - IndexName: 'GSI2'
+            KeySchema:
+            - AttributeName: "GSI2PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI2SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+          - IndexName: 'GSI3'
+            KeySchema:
+            - AttributeName: "GSI3PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI3SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL

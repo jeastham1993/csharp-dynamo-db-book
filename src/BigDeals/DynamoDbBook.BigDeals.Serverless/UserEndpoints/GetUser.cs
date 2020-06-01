@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
@@ -33,7 +34,7 @@ namespace DynamoDbBook.BigDeals.Serverless.UserEndpoints
 		    APIGatewayProxyRequest request,
 		    ILambdaContext context)
 	    {
-		    var user = await this._userRepository.GetUserAsync(request.PathParameters["username"]).ConfigureAwait(false);
+		    var user = await this._userRepository.GetUserAsync(HttpUtility.UrlDecode(request.PathParameters["username"])).ConfigureAwait(false);
 
 		    if (user != null)
 		    {

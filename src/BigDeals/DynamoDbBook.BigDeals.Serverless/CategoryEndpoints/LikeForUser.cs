@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Web;
 
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 
 using DynamoDbBook.BigDeals.Domain.Entities;
-using DynamoDbBook.BigDeals.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Newtonsoft.Json;
-
-namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
+namespace DynamoDbBook.BigDeals.Serverless.CategoryEndpoints
 {
 	public class LikeForUser
 	{
@@ -32,11 +27,8 @@ namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
 			ILambdaContext context)
 		{
 			await this._categoryRepository.LikeCategoryAsync(
-				new Category()
-				{
-					Name = request.PathParameters["name"]
-				},
-				request.PathParameters["username"]).ConfigureAwait(false);
+				HttpUtility.UrlDecode(request.PathParameters["name"]),
+				HttpUtility.UrlDecode(request.PathParameters["username"])).ConfigureAwait(false);
 
 			return new APIGatewayProxyResponse
 			{

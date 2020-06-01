@@ -76,9 +76,14 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 		/// <inheritdoc />
 		public async Task LikeCategoryAsync(
-			Category category,
+			string categoryName,
 			string username)
 		{
+			var category = new Category()
+			{
+				Name = categoryName
+			};
+
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
 											   {
 												   TransactItems = new List<TransactWriteItem>(2)
@@ -140,9 +145,14 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 		/// <inheritdoc />
 		public async Task WatchCategoryAsync(
-			Category category,
+			string categoryName,
 			string username)
 		{
+			var category = new Category()
+			{
+				Name = categoryName
+			};
+
 			var transactWriteItemRequest = new TransactWriteItemsRequest()
 											   {
 												   TransactItems = new List<TransactWriteItem>(2)

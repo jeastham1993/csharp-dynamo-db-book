@@ -12,21 +12,16 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.BigDeals.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
     public class CategoryController : ControllerBase
     {
-		private readonly ILogger<CategoryController> _logger;
-
 		private readonly ICategoryRepository _categoryRepository;
 
-		public CategoryController(ILogger<CategoryController> logger,
-			ICategoryRepository categoryRepository)
+		public CategoryController(ICategoryRepository categoryRepository)
 		{
-			_logger = logger;
 			this._categoryRepository = categoryRepository;
 		}
 
-		[HttpPost]
+		[HttpPost("categories")]
 		public async Task<Category> CreateCategory(
 			[FromBody] CategoryDTO category)
 		{
@@ -36,8 +31,9 @@ namespace DynamoDbBook.BigDeals.Controllers
 					category.FeaturedDeals));
 		}
 
-		[HttpPut]
+		[HttpPost("categories/{categoryName}")]
 		public async Task<Category> UpdateCategory(
+			string categoryName,
 			[FromBody] CategoryDTO category)
 		{
 				return await this._categoryRepository.CreateOrUpdateAsync(
@@ -46,28 +42,28 @@ namespace DynamoDbBook.BigDeals.Controllers
 							   category.FeaturedDeals));
 		}
 
-		[HttpGet("{categoryName}")]
+		[HttpPost("categories/{categoryName}")]
 		public async Task<Category> GetCategory(string categoryName)
 		{
 			return await this._categoryRepository.GetCategoryAsync(categoryName);
 		}
 
-		[HttpPut("like")]
-		public async Task<IActionResult> LikeCategory([FromBody] LikeCategoryDTO likeCategory)
+		[HttpPost("categories/{categoryName}/likes/{username}like")]
+		public async Task<IActionResult> LikeCategory(string categoryName, string username)
 		{
 			await this._categoryRepository.LikeCategoryAsync(
-				likeCategory.Category,
-				likeCategory.Username).ConfigureAwait(false);
+				categoryName,
+				username).ConfigureAwait(false);
 
 			return this.Ok();
 		}
 
-		[HttpPut("watch")]
-		public async Task<IActionResult> WatchCategory([FromBody] LikeCategoryDTO likeCategory)
+		[HttpPost("categories/{categoryName}/likes/{username}like")]
+		public async Task<IActionResult> WatchCategory(string categoryName, string username)
 		{
 			await this._categoryRepository.WatchCategoryAsync(
-				likeCategory.Category,
-				likeCategory.Username).ConfigureAwait(false);
+				categoryName,
+				username).ConfigureAwait(false);
 
 			return this.Ok();
 		}

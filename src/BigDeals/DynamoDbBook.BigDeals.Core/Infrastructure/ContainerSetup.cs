@@ -7,6 +7,7 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.Runtime;
 
+using DynamoDbBook.BigDeals.Core.Domain.Request;
 using DynamoDbBook.BigDeals.Domain.Entities;
 
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 			services.AddTransient<ICategoryRepository, CategoryRepository>();
 			services.AddTransient<IUserRepository, UserRepository>();
 			services.AddTransient<IMessageRepository, MessageRepository>();
+			services.AddSingleton<SendHotDealInteractor>();
 
 			return services;
 		}

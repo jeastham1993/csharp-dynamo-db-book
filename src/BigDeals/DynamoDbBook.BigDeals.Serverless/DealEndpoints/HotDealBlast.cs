@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
 
+using DynamoDbBook.BigDeals.Core.Domain.Request;
 using DynamoDbBook.BigDeals.Domain.Entities;
-using DynamoDbBook.BigDeals.ViewModels;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,34 +15,29 @@ using Newtonsoft.Json;
 
 namespace DynamoDbBook.BigDeals.Serverless.DealEndpoints
 {
-    public class SendDealToAllUsers
+    class HotDealBlast
     {
-	    private readonly IDealRepository _dealRepository;
+	    private readonly SendHotDealInteractor _hotDealInteractor;
 
-	    public SendDealToAllUsers()
+	    public HotDealBlast()
 	    {
 		    var serviceCollection = new ServiceCollection()
 			    .AddLogging()
 			    .ConfigureDynamoDb();
 		    var serviceProvider = serviceCollection.BuildServiceProvider();
 
-		    this._dealRepository = serviceProvider.GetRequiredService<IDealRepository>();
+		    this._hotDealInteractor = serviceProvider.GetRequiredService<SendHotDealInteractor>();
 	    }
 
 	    public async Task<APIGatewayProxyResponse> Execute(
 		    APIGatewayProxyRequest request,
 		    ILambdaContext context)
 	    {
-		    var deal = await this._dealRepository.(request.PathParameters["dealId"]).ConfigureAwait(false);
+		    var hotDealRequest = JsonConvert.DeserializeObject<SendHotDealRequest>(request.Body);
 
-		    if (deal != null)
-		    {
-			    return new APIGatewayProxyResponse { StatusCode = 200, Body = JsonConvert.SerializeObject(deal)};
-		    }
-		    else
-		    {
-			    return new APIGatewayProxyResponse { StatusCode = 404, Body = "Deal not found"};
-		    }
+		    await this._hotDealInteractor.Handle(hotDealRequest).ConfigureAwait(false);
+
+		    return new APIGatewayProxyResponse { StatusCode = 200 };
 	    }
     }
 }

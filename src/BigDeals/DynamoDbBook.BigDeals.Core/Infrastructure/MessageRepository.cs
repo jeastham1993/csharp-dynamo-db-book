@@ -57,6 +57,62 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 		}
 
 		/// <inheritdoc />
+		public async Task<List<Message>> CreateBatchAsync(
+			List<Message> messagesToCreate)
+		{
+			var writeRequest = new List<WriteRequest>();
+
+			var requestCounter = 25;
+
+			foreach (var message in messagesToCreate)
+			{
+				writeRequest.Add(new WriteRequest(new PutRequest(message.AsItem())));
+
+				requestCounter--;
+
+				if (requestCounter == 0)
+				{
+					requestCounter = 25;
+
+					await this.MakeBatchRequest(writeRequest).ConfigureAwait(false);
+
+					writeRequest = new List<WriteRequest>();
+				}
+			}
+
+			if (writeRequest.Any())
+			{
+				await this.MakeBatchRequest(writeRequest).ConfigureAwait(false);
+			}
+
+			return messagesToCreate;
+		}
+
+		private async Task MakeBatchRequest(List<WriteRequest> writeRequests)
+		{
+			// Individual items within a batch can fail, so we'll attempt
+			// to reprocess them 5 times.
+			for (var x = 5; x > 0; x--)
+			{
+				var batchWriteResult = await this._client.BatchWriteItemAsync(
+					                       new BatchWriteItemRequest(
+						                       new Dictionary<string, List<WriteRequest>>(1)
+						                       {
+							                       { DynamoDbConstants.TableName, writeRequests }
+						                       }));
+
+				if (batchWriteResult.UnprocessedItems.Count == 0)
+				{
+					break;
+				}
+				else
+				{
+					writeRequests = batchWriteResult.UnprocessedItems.FirstOrDefault().Value;
+				}
+			}
+		}
+
+		/// <inheritdoc />
 		public async Task<IEnumerable<Message>> FindAllForUserAsync(
 			string username,
 			bool onlyUnread)
@@ -113,9 +169,14 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 		}
 
 		/// <inheritdoc />
-		public async Task MarkMessageAsRead(
-			Message message)
+		public async Task MarkMessageAsRead(string username, string messageId)
 		{
+			var message = new Message()
+			{
+				Username = username,
+				MessageId = messageId
+			};
+
 			var updateItemRequest = new UpdateItemRequest()
 										{
 											TableName = DynamoDbConstants.TableName,

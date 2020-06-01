@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.BigDeals.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
     public class BrandController : ControllerBase
     {
 		private readonly ILogger<BrandController> _logger;
@@ -26,7 +25,7 @@ namespace DynamoDbBook.BigDeals.Controllers
 			this._brandRepository = brandRepository;
 		}
 
-		[HttpPost]
+		[HttpPost("brands")]
 		public async Task<Brand> CreateBrand(
 			[FromBody] BrandDTO brand)
 		{
@@ -36,34 +35,34 @@ namespace DynamoDbBook.BigDeals.Controllers
 					brand.LogoUrl));
 		}
 
-		[HttpGet]
+		[HttpGet("brands")]
 		public async Task<IEnumerable<string>> ListBrands()
 		{
 			return await this._brandRepository.ListBrandsAsync();
 		}
 
-		[HttpGet("{brandName}")]
+		[HttpGet("brands/{brandName}")]
 		public async Task<Brand> GetBrand(string brandName)
 		{
 			return await this._brandRepository.GetBrandAsync(brandName);
 		}
 
-		[HttpPut("like")]
-		public async Task<IActionResult> LikeBrand([FromBody] LikeBrandDTO likeBrand)
+		[HttpPost("brands/{brandName}/likes/{username}")]
+		public async Task<IActionResult> LikeBrand(string brandName, string username)
 		{
 			await this._brandRepository.LikeBrandAsync(
-				likeBrand.Brand,
-				likeBrand.Username).ConfigureAwait(false);
+				brandName,
+				username).ConfigureAwait(false);
 
 			return this.Ok();
 		}
 
-		[HttpPut("watch")]
-		public async Task<IActionResult> WatchBrand([FromBody] LikeBrandDTO likeBrand)
+		[HttpPost("brands/{brandName}/watches/{username}")]
+		public async Task<IActionResult> WatchBrand(string brandName, string username)
 		{
 			await this._brandRepository.WatchBrandAsync(
-				likeBrand.Brand,
-				likeBrand.Username).ConfigureAwait(false);
+				brandName,
+				username).ConfigureAwait(false);
 
 			return this.Ok();
 		}

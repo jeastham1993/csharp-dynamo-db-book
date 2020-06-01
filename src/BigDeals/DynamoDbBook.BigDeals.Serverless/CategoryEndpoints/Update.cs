@@ -9,6 +9,7 @@ using Amazon.Lambda.Core;
 using DynamoDbBook.BigDeals.Domain.Entities;
 using DynamoDbBook.BigDeals.ViewModels;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
@@ -19,10 +20,12 @@ namespace DynamoDbBook.BigDeals.Serverless.CategoryEndpoints
 	{
 		private readonly ICategoryRepository _categoryRepository;
 
-		public Update(
-			ICategoryRepository categoryRepository)
+		public Update()
 		{
-			this._categoryRepository = categoryRepository;
+			var serviceCollection = new ServiceCollection().AddLogging().ConfigureDynamoDb();
+			var serviceProvider = serviceCollection.BuildServiceProvider();
+
+			this._categoryRepository = serviceProvider.GetRequiredService<ICategoryRepository>();
 		}
 
 		public async Task<APIGatewayProxyResponse> Execute(

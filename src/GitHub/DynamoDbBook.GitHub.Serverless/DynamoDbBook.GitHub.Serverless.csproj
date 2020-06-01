@@ -24,8 +24,9 @@
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.0.1" />
   </ItemGroup>
 
+
   <ItemGroup>
-    <ProjectReference Include="..\DynamoDbBook.BigDeals.Core\DynamoDbBook.BigDeals.Core.csproj" />
+    <ProjectReference Include="..\DynamoDbBook.GitHub.Core\DynamoDbBook.GitHub.Core.csproj" />
   </ItemGroup>
 
 </Project>

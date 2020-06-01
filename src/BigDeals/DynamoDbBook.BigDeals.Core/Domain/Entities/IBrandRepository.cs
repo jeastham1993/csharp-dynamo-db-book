@@ -16,11 +16,11 @@ namespace DynamoDbBook.BigDeals.Domain.Entities
 			string brandName);
 
 		Task LikeBrandAsync(
-			Brand brand,
+			string brandName,
 			string username);
 
 		Task WatchBrandAsync(
-			Brand brand,
+			string brandName,
 			string username);
 
 		Task<IEnumerable<string>> FindWatchersForBrand(

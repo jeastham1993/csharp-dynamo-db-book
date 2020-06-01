@@ -81,7 +81,7 @@ functions:
           path: deals/{dealId}
           method: get
   createBrand:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndoints.CreateBrand::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndpoints.CreateBrand::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -89,7 +89,7 @@ functions:
           path: brands
           method: post
   listBrands:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndoints.ListBrands::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndpoints.ListBrands::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -97,7 +97,7 @@ functions:
           path: brands
           method: get
   getBrand:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndoints.GetBrand::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndpoints.GetBrand::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -105,7 +105,7 @@ functions:
           path: brands/{name}
           method: get
   likeBrandForUser:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndoints.LikeBrandForUser::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndpoints.LikeBrandForUser::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -113,7 +113,7 @@ functions:
           path: brands/{name}/likes/{username}
           method: post
   watchBrandForUser:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndoints.WatchBrandForUser::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.BrandEndpoints.WatchBrandForUser::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -160,16 +160,16 @@ functions:
       - http:
           path: /frontpage
           method: post
-  updateFrontPage:
+  getFrontPage:
     handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.DealEndpoints.GetFrontPage::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
       - http:
           path: /frontpage
-          method: post
+          method: get
   updateEditorsChoice:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.DealEndpoints.UpdatedEditorsChoice::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.DealEndpoints.UpdateEditorsChoice::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -217,7 +217,7 @@ functions:
           path: users/{username}/messages/{messageId}
           method: post
   sendHotDealToAllUsers:
-    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.DealEndpoints.SendDealToAllUsers::Execute
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.DealEndpoints.HotDealBlast::Execute
     package:
       artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
@@ -225,7 +225,9 @@ functions:
           path: hotdealblast
           method: post
   streamHandler:
-    handler: handlers/streamHandler.handler
+    handler: CsharpHandlers::DynamoDbBook.BigDeals.Serverless.Streams.StreamHandler::Handle
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.BigDeals.Serverless.zip
     events:
       - stream:
           type: dynamodb

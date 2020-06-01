@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
+using DynamoDbBook.BigDeals.Core.Domain.Request;
 using DynamoDbBook.BigDeals.Domain.Entities;
 using DynamoDbBook.BigDeals.ViewModels;
 
@@ -14,21 +15,24 @@ using Microsoft.Extensions.Primitives;
 namespace DynamoDbBook.BigDeals.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
     public class DealController : ControllerBase
     {
 		private readonly ILogger<DealController> _logger;
 
 		private readonly IDealRepository _dealRepository;
 
+		private readonly SendHotDealInteractor _hotDealInteractor;
+
 		public DealController(ILogger<DealController> logger,
-			IDealRepository dealRepository)
+			IDealRepository dealRepository,
+			SendHotDealInteractor hotDealInteractor)
 		{
 			_logger = logger;
 			this._dealRepository = dealRepository;
+			this._hotDealInteractor = hotDealInteractor;
 		}
 
-		[HttpPost]
+		[HttpPost("deals")]
 		public async Task<Deal> CreateDeal(
 			CreateDealDTO newDeal)
 		{
@@ -42,7 +46,16 @@ namespace DynamoDbBook.BigDeals.Controllers
 							   .ConfigureAwait(false);
 		}
 
-		[HttpGet]
+		[HttpPost("hotdealblast")]
+		public async Task<IActionResult> HotDealBlast(
+			[FromBody] SendHotDealRequest request)
+		{
+			await this._hotDealInteractor.Handle(request).ConfigureAwait(false);
+
+			return this.Ok();
+		}
+
+		[HttpGet("deals")]
 		public async Task<IEnumerable<Deal>> GetForDate(
 			DateTime date,
 			string lastSeen = "",
@@ -53,7 +66,7 @@ namespace DynamoDbBook.BigDeals.Controllers
 					   .ConfigureAwait(false);
 		}
 
-		[HttpGet("brand/{brandName}")]
+		[HttpGet("deals/brand/{brandName}")]
 		public async Task<IEnumerable<Deal>> GetForBrandAndDate(
 			string brandName,
 			DateTime date,
@@ -65,7 +78,7 @@ namespace DynamoDbBook.BigDeals.Controllers
 					   .ConfigureAwait(false);
 		}
 
-		[HttpGet("category/{categoryName}")]
+		[HttpGet("deals/brand/{brandName}")]
 		public async Task<IEnumerable<Deal>> GetForCategoryAndDate(
 			string categoryName,
 			DateTime date,

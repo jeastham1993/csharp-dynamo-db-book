@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 namespace DynamoDbBook.BigDeals.Controllers
 {
 	[ApiController]
-	[Route("[controller]")]
     public class MessageController : ControllerBase
     {
 		private readonly ILogger<MessageController> _logger;
@@ -25,7 +24,7 @@ namespace DynamoDbBook.BigDeals.Controllers
 			this._messageRepository = messageRepository;
 		}
 
-		[HttpGet("{username}")]
+		[HttpGet("users/{username}/messages")]
 		public async Task<IEnumerable<Message>> GetForUsers(
 			string username,
 			bool onlyUnread = false)
@@ -35,12 +34,14 @@ namespace DynamoDbBook.BigDeals.Controllers
 					   onlyUnread).ConfigureAwait(false);
 		}	
 
-		[HttpPut()]
+		[HttpPost("users/{username}/messages/{messageId}")]
 		public async Task<IActionResult> MarkRead(
-			[FromBody] Message message)
+			string username,
+			string messageId)
 		{
 			await this._messageRepository.MarkMessageAsRead(
-					   message).ConfigureAwait(false);
+					   username,
+					   messageId).ConfigureAwait(false);
 
 			return this.Ok();
 		}

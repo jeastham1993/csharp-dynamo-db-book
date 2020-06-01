@@ -38,17 +38,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.GitHub.LocalSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.SessionStore.Serverless", "src\SessionStore\DynamoDbBook.SessionStore.Serverless\DynamoDbBook.SessionStore.Serverless.csproj", "{3FF0898F-355D-4E3A-8A6A-7DDE3259C3CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.SessionStore.Core", "src\SessionStore\DynamoDbBook.SessionStore.Core\DynamoDbBook.SessionStore.Core.csproj", "{B2754C31-27AE-404A-9FB9-6CE62EE5E3DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.SessionStore.Core", "src\SessionStore\DynamoDbBook.SessionStore.Core\DynamoDbBook.SessionStore.Core.csproj", "{B2754C31-27AE-404A-9FB9-6CE62EE5E3DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.BigDeals.Core", "src\BigDeals\DynamoDbBook.BigDeals.Core\DynamoDbBook.BigDeals.Core.csproj", "{05E8CC2C-BF03-48E6-8EFD-9CD3C8079025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.BigDeals.Core", "src\BigDeals\DynamoDbBook.BigDeals.Core\DynamoDbBook.BigDeals.Core.csproj", "{05E8CC2C-BF03-48E6-8EFD-9CD3C8079025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.ECommerce.Core", "src\ECommerce\DynamoDbBook.ECommerce.Core\DynamoDbBook.ECommerce.Core.csproj", "{497724C2-1D66-481D-8AAB-9BD7CA231CB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.ECommerce.Core", "src\ECommerce\DynamoDbBook.ECommerce.Core\DynamoDbBook.ECommerce.Core.csproj", "{497724C2-1D66-481D-8AAB-9BD7CA231CB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDbBook.GitHub.Core", "src\GitHub\DynamoDbBook.GitHub.Core\DynamoDbBook.GitHub.Core.csproj", "{130CE074-E105-49C4-BB1F-26856DA57899}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.GitHub.Core", "src\GitHub\DynamoDbBook.GitHub.Core\DynamoDbBook.GitHub.Core.csproj", "{130CE074-E105-49C4-BB1F-26856DA57899}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.ECommerce.Serverless", "src\ECommerce\DynamoDbBook.ECommerce.Serverless\DynamoDbBook.ECommerce.Serverless.csproj", "{9EE615D2-7936-461E-8BF7-2C52E9386B79}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.BigDeals.Serverless", "src\BigDeals\DynamoDbBook.BigDeals.Serverless\DynamoDbBook.BigDeals.Serverless.csproj", "{7FD85AA4-CB18-49A0-BF5D-FD889E782720}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamoDbBook.GitHub.Serverless", "src\GitHub\DynamoDbBook.GitHub.Serverless\DynamoDbBook.GitHub.Serverless.csproj", "{26CB7918-790A-4C93-A86C-993E4E80EBD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -252,6 +254,18 @@ Global
 		{7FD85AA4-CB18-49A0-BF5D-FD889E782720}.Release|x64.Build.0 = Release|Any CPU
 		{7FD85AA4-CB18-49A0-BF5D-FD889E782720}.Release|x86.ActiveCfg = Release|Any CPU
 		{7FD85AA4-CB18-49A0-BF5D-FD889E782720}.Release|x86.Build.0 = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|x64.Build.0 = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Debug|x86.Build.0 = Debug|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|x64.ActiveCfg = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|x64.Build.0 = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|x86.ActiveCfg = Release|Any CPU
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,6 +292,7 @@ Global
 		{130CE074-E105-49C4-BB1F-26856DA57899} = {DB2B88D3-FE21-49BA-8C17-40F282A614F3}
 		{9EE615D2-7936-461E-8BF7-2C52E9386B79} = {3FDDFB2E-C01B-4C72-9B8E-27868DEA0C8A}
 		{7FD85AA4-CB18-49A0-BF5D-FD889E782720} = {3233727E-23FE-4222-A5F2-0D5098C587F5}
+		{26CB7918-790A-4C93-A86C-993E4E80EBD9} = {DB2B88D3-FE21-49BA-8C17-40F282A614F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFE411D5-7387-4896-9338-D3A09D92FDDD}
