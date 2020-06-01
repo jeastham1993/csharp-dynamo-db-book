@@ -56,7 +56,7 @@ namespace DynamoDbBook.BigDeals.Serverless.BrandEndpoints
 				return new APIGatewayProxyResponse
 				{
 					StatusCode = 500,
-					Body = $"{request.PathParameters["name"]}{Environment.NewLine}{JsonConvert.SerializeObject(ex)}"
+					Body = "Unhandled failure"
 				};
 			}
 		}
