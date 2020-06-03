@@ -87,10 +87,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			foreach (var item in queryResult.Items)
 			{
-				var orderData = item.FirstOrDefault(p => p.Key == "Data");
-
-				dealResponse.Add(
-					JsonConvert.DeserializeObject<Deal>(Document.FromAttributeMap(orderData.Value.M).ToJson()));
+				dealResponse.Add(DynamoHelper.CreateFromItem<Deal>(item));
 			}
 
 			return dealResponse;
@@ -128,10 +125,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			foreach (var item in queryResult.Items)
 			{
-				var orderData = item.FirstOrDefault(p => p.Key == "Data");
-
-				dealResponse.Add(
-					JsonConvert.DeserializeObject<Deal>(Document.FromAttributeMap(orderData.Value.M).ToJson()));
+				dealResponse.Add(DynamoHelper.CreateFromItem<Deal>(item));
 			}
 
 			return dealResponse;
@@ -169,10 +163,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			foreach (var item in queryResult.Items)
 			{
-				var orderData = item.FirstOrDefault(p => p.Key == "Data");
-
-				dealResponse.Add(
-					JsonConvert.DeserializeObject<Deal>(Document.FromAttributeMap(orderData.Value.M).ToJson()));
+				dealResponse.Add(DynamoHelper.CreateFromItem<Deal>(item));
 			}
 
 			return dealResponse;

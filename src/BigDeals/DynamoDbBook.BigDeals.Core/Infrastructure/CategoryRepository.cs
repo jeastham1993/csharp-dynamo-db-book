@@ -10,6 +10,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 
 using DynamoDbBook.BigDeals.Infrastructure.Models;
+using DynamoDbBook.SharedKernel;
 
 using Microsoft.Extensions.Logging;
 
@@ -69,9 +70,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			var getItem = await this._client.GetItemAsync(getItemRequest).ConfigureAwait(false);
 
-			var categoryData = getItem.Item.FirstOrDefault(p => p.Key == "Data");
-
-			return JsonConvert.DeserializeObject<Category>(Document.FromAttributeMap(categoryData.Value.M).ToJson());
+			return DynamoHelper.CreateFromItem<Category>(getItem.Item);
 		}
 
 		/// <inheritdoc />

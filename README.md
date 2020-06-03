@@ -4,6 +4,8 @@ Examples from the DynamoDB book by Alex DeBrie re-written in C#.
 
 ## Running the samples
 
+There is a master solution file in the root of this folder, each example application also has it's own application specific solution file.
+
 All of the samples include both a .NET core Web API and a serverless.yml file for running within AWS as Lambda functions and an AWS gateway.
 
 ### Serverless

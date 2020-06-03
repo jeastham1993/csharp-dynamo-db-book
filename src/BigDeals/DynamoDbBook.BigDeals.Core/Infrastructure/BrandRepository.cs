@@ -10,6 +10,7 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
 
 using DynamoDbBook.BigDeals.Infrastructure.Models;
+using DynamoDbBook.SharedKernel;
 
 using Microsoft.Extensions.Logging;
 
@@ -119,9 +120,7 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			var getItem = await this._client.GetItemAsync(getItemRequest).ConfigureAwait(false);
 
-			var brandData = getItem.Item.FirstOrDefault(p => p.Key == "Data");
-
-			return JsonConvert.DeserializeObject<Brand>(Document.FromAttributeMap(brandData.Value.M).ToJson());
+			return DynamoHelper.CreateFromItem<Brand>(getItem.Item);
 		}
 
 		/// <inheritdoc />

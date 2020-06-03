@@ -1,0 +1,411 @@
+service: github-migrations-csharp
+
+provider:
+  name: aws
+  runtime: dotnetcore3.1
+  stage: prod
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:ConditionCheckItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:Query"
+        - "dynamodb:UpdateItem"
+      Resource:
+        - Fn::GetAtt:
+          - GitHubTable
+          - Arn
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI1"
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI2"
+        - Fn::Join: 
+          - "/"
+          - - Fn::GetAtt:
+              - GitHubTable
+              - Arn
+            - "index/GSI3"
+
+  environment:
+    TABLE_NAME: { Ref: GitHubTable }
+
+package:
+  individually: true
+
+functions:
+  createRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.Create::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos
+          method: post
+  getRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.Get::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}
+          method: get
+  addIssueToRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddIssue::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues
+          method: post
+  getRepoAndIssues:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetIssues::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues
+          method: get
+  getRepoAndInstallations:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetInstallations::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/installations
+          method: get
+  updateCodeOfConductForRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.UpdateCodeOfConduct::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/code
+          method: post
+  getIssue:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetIssue::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}
+          method: get
+  updateIssue:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.UpdateIssue::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}
+          method: post 
+  addCommentToIssue:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddCommentToIssue::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/comments
+          method: post
+  getCommentsForIssue:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetCommentsForIssue::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/comments
+          method: get
+#  addReactionToIssue:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddReactionToIssue::Execute#
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: repos/{ownerName}/{repoName}/issues/{issueNumber}/reactions
+#          method: post
+  addPullRequestToRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddPullRequest::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls
+          method: post
+  getRepoAndPullRequests:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetPullRequests::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls
+          method: get
+  getPullRequest:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetPullRequest::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}
+          method: get
+  updatePullRequest:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.UpdatePullRequest::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}
+          method: post
+  addCommentToPullRequest:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddCommentToPullRequest::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/comments
+          method: post
+  getCommentsForPullRequest:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetCommentsForPullRequest::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/comments
+          method: get
+#  addReactionToPullRequest:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddReactionToPullRequest::Execute
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: repos/{ownerName}/{repoName}/pulls/{pullRequestNumber}/reactions
+#          method: post
+  addStarToRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddStar::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/stars
+          method: post
+  getStargazersForRepo:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetStars::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: repos/{ownerName}/{repoName}/stars
+          method: get 
+#  forkRepo:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.ForkRepo::Execute
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: repos/{ownerName}/{repoName}/forks
+#          method: post
+#  getForksForRepo:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.GetForks::Execute
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: repos/{ownerName}/{repoName}/forks
+#          method: get
+#  addReactionToComment:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.RepositoryEndpoints.AddReactionToComment::Execute
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: repos/{ownerName}/{repoName}/comments/{commentId}/reactions
+#          method: post
+  createUser:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.CreateUser::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users
+          method: post
+  getUser:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetUser::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users/{username}
+          method: get
+  getUserAndRepos:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetUserRepos::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users/{username}/repos
+          method: get
+  updatePaymentPlanForUser:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.UpdatePaymentPlanForUser::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users/{username}/payment
+          method: post
+  createGist:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.CreateGist::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users/{username}/gists
+          method: post
+  getUserAndGists:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetGists::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: users/{username}/gists
+          method: get
+  createOrganization:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.CreateOrganization::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: organizations
+          method: post
+  getOrganization:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetOrganization::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: organizations/{organizationName}
+          method: get
+  getOrganizationAndMembers:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetOrganizationMembers::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: organizations/{organizationName}/members
+          method: get
+  addMemberToOrganization:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.AddMemberToOrganization::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: organizations/{organizationName}/members
+          method: post
+  getOrganizationAndRepos:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.GetOrganizationRepos::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: organizations/{organizationName}/repos
+          method: get
+#  updatePaymentPlanForOrganization:
+#    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.UserEndpoints.UpdatePaymentPlanForOrganization::Execute
+#    package:
+#      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+#    events:
+#      - http:
+#          path: organizations/{organizationName}/payment
+#          method: post
+  createApp:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.AppEndpoints.Create::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: apps
+          method: post
+  installApp:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.AppEndpoints.InstallApp::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: apps/{appOwner}/{appName}/installations
+          method: post
+  getAppAndInstallations:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.AppEndpoints.GetAppInstalls::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+    events:
+      - http:
+          path: apps/{appOwner}/{appName}/installations
+          method: get
+  accountMigration:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.Migrations.AccountMigrationHandler::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+  repoIssuePrMigration:
+    handler: CsharpHandlers::DynamoDbBook.GitHub.Serverless.Migrations.RepoMigrationHandler::Execute
+    package:
+      artifact: bin/Release/netcoreapp3.1/DynamoDbBook.GitHub.zip
+
+resources:
+  Resources:
+    GitHubTable:
+      Type: AWS::DynamoDB::Table
+      Properties: 
+        AttributeDefinitions: 
+          - AttributeName: "PK"
+            AttributeType: "S"
+          - AttributeName: "SK"
+            AttributeType: "S"
+          - AttributeName: "GSI1PK"
+            AttributeType: "S"
+          - AttributeName: "GSI1SK"
+            AttributeType: "S"
+          - AttributeName: "GSI2PK"
+            AttributeType: "S"
+          - AttributeName: "GSI2SK"
+            AttributeType: "S"
+          - AttributeName: "GSI3PK"
+            AttributeType: "S"
+          - AttributeName: "GSI3SK"
+            AttributeType: "S"
+        KeySchema: 
+          - AttributeName: "PK"
+            KeyType: "HASH"
+          - AttributeName: "SK"
+            KeyType: "RANGE"
+        BillingMode: "PAY_PER_REQUEST"
+        GlobalSecondaryIndexes:
+          - IndexName: 'GSI1'
+            KeySchema:
+            - AttributeName: "GSI1PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI1SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+          - IndexName: 'GSI2'
+            KeySchema:
+            - AttributeName: "GSI2PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI2SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL
+          - IndexName: 'GSI3'
+            KeySchema:
+            - AttributeName: "GSI3PK"
+              KeyType: "HASH"
+            - AttributeName: "GSI3SK"
+              KeyType: "RANGE"
+            Projection:
+              ProjectionType: ALL

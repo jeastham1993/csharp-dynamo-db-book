@@ -1,0 +1,2613 @@
+{
+	"info": {
+		"_postman_id": "486afb01-814e-4ad2-8eb1-a10d35e2e9ad",
+		"name": "DynamoDbBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SessionStore",
+			"item": [
+				{
+					"name": "Create Session",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"dynamodbbook\",\r\n  \"password\": \"dynamodbbook\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://24dgmnyah1.execute-api.us-east-1.amazonaws.com/prod/sessions",
+							"protocol": "https",
+							"host": [
+								"24dgmnyah1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"prod",
+								"sessions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Session",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true,
+							"content-length": true,
+							"host": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://24dgmnyah1.execute-api.us-east-1.amazonaws.com/prod/sessions?sessionId=e1556df2-c0f8-4835-9410-94e6a6c8a525",
+							"protocol": "https",
+							"host": [
+								"24dgmnyah1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"prod",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "sessionId",
+									"value": "e1556df2-c0f8-4835-9410-94e6a6c8a525"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Sessions",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"dynamodbbook\",\r\n  \"password\": \"dynamodbbook\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://24dgmnyah1.execute-api.us-east-1.amazonaws.com/prod/sessions/dynamodbbook",
+							"protocol": "https",
+							"host": [
+								"24dgmnyah1",
+								"execute-api",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"prod",
+								"sessions",
+								"dynamodbbook"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ECommerce",
+			"item": [
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jeasthamdev\",\n    \"name\": \"dynamodbbook\",\n    \"email\": \"jeasthamdev@dylnamobook.com\",\n    \"addresses\": [\n        {\n        \t\"name\": \"Home\",\n            \"streetAddress\": \"myaddress\",\n            \"postalCode\": \"BT54 6IU\",\n            \"country\": \"England\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jeasthamdev\",\n    \"address\": {\n        \"name\": \"Home\",\n        \"streetAddress\": \"myaddress\",\n        \"postalCode\": \"BT54 6IU\",\n        \"country\": \"England\"\n    },\n    \"orderItems\": [\n        {\n            \"description\": \"Widgets\",\n            \"price\": 100,\n            \"amount\": 1\n        },\n        \n        {\n            \"description\": \"More Widgets\",\n            \"price\": 100,\n            \"amount\": 9\n        },\n        \n        {\n            \"description\": \"A third set of Widgets\",\n            \"price\": 300,\n            \"amount\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/orders",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Address",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jeasthamdev\",\n    \"address\":{\n    \t\"name\": \"Work\",\n    \t\"streetAddress\": \"my street address\",\n    \t\"postalCode\": \"BB3 3LW\",\n    \t\"country\": \"United Kingdom\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/addresses",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"addresses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"dynamodbbook\",\r\n  \"password\": \"dynamodbbook\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/addresses/work",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"addresses",
+								"work"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/orders/C2FEwFph8kZiNvPMrZ6a8rSfMg",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"orders",
+								"C2FEwFph8kZiNvPMrZ6a8rSfMg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/orders",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newStatus\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{eCommerceEndpoint}}/customers/jeasthamdev/orders/C2FEwFph8kZiNvPMrZ6a8rSfMg/status",
+							"host": [
+								"{{eCommerceEndpoint}}"
+							],
+							"path": [
+								"customers",
+								"jeasthamdev",
+								"orders",
+								"C2FEwFph8kZiNvPMrZ6a8rSfMg",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aedf3cb2-e6ff-4a3c-95a3-763ae4203959",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "539f6142-992a-4dc9-a61c-5cd7c970a0f1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "BigDeals",
+			"item": [
+				{
+					"name": "Create Deal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My deal\",\n\t\"link\": \"http://mylink\",\n\t\"price\": 256.79,\n\t\"category\": \"Cloud Computing\",\n\t\"brand\": \"G Cloud\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/deals",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"deals"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"G Cloud\",\n\t\"logoUrl\": \"http://mylink.jpb\",\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/brands",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"brands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryName\": \"Cloud Computing\",\n    \"featuredDeals\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/categories/Cloud Computing",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"categories",
+								"Cloud Computing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jeasthamdev\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/users",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/brands/G Cloud/likes/jeasthamdev",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"brands",
+								"G Cloud",
+								"likes",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/categories/Cloud Computing/likes/jeasthamdev",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"categories",
+								"Cloud Computing",
+								"likes",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Watch Brand",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"brand\": {\n\t\t\"brandName\": \"G Cloud\",\n\t\t\"logoUrl\": \"http://mylink.jpb\",\n\t},\n\t\"username\": \"jeasthamdev3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/brands/G Cloud/watches/jeasthamdev",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"brands",
+								"G Cloud",
+								"watches",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Watch Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"category\": {\n\t\t\"name\": \"Services\",\n\t},\n\t\"username\": \"jeastham123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/categories/Cloud Computing/watches/jeasthamdev",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"categories",
+								"Cloud Computing",
+								"watches",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Editors Choice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"DealId\": \"C2LNKJt3i7EDACQ4UJZsR5ppQXo=\",\n        \"CreatedAt\": \"2020-06-01T15:13:44.1570511+00:00\",\n        \"Title\": \"My deal\",\n        \"Link\": \"http://mylink\",\n        \"Price\": 256.79,\n        \"Category\": \"Marketing\",\n        \"Brand\": \"Azure\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/editorschoice",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"editorschoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Front Page",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n     {\n        \"DealId\": \"C2LNKJt3i7EDACQ4UJZsR5ppQXo=\",\n        \"CreatedAt\": \"2020-06-01T15:13:44.1570511+00:00\",\n        \"Title\": \"My deal\",\n        \"Link\": \"http://mylink\",\n        \"Price\": 256.79,\n        \"Category\": \"Marketing\",\n        \"Brand\": \"Azure\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/frontpage",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"frontpage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Message Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"messageId\": \"C1IS5Rs63C1SJ804olu26Q2cOI=\",\r\n        \"createdAt\": \"2020-05-19T23:42:45.5326563+01:00\",\r\n        \"username\": \"jeasthamdev2\",\r\n        \"subject\": \"New deal for G Cloud\",\r\n        \"body\": \"There is a new deal for G Cloud\",\r\n        \"unread\": true\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44317/message",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Brands",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/brands",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"brands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/brands/G Cloud",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"brands",
+								"G Cloud"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/users/jeasthamdev",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"users",
+								"jeasthamdev"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Messages For User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/users/jeasthamdev/messages",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"users",
+								"jeasthamdev",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/categories/Cloud Computing",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"categories",
+								"Cloud Computing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetForDate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44317/deal?date=2020-05-19&lastSeen=a&limit=25",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"deal"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2020-05-19"
+								},
+								{
+									"key": "lastSeen",
+									"value": "a"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get for date and brand",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44317/deal/brand/Azure?date=2020-05-18&lastSeen=a&limit=25",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"deal",
+								"brand",
+								"Azure"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2020-05-18"
+								},
+								{
+									"key": "lastSeen",
+									"value": "a"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get for date and category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44317/deal/category/Travel?date=2020-05-18&lastSeen=a&limit=25",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"deal",
+								"category",
+								"Travel"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2020-05-18"
+								},
+								{
+									"key": "lastSeen",
+									"value": "a"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Editors Choice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/editorschoice",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"editorschoice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Front Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/frontpage",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"frontpage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mocked DynamoDB Stream New Deal",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44317/streamevent/brand/G Cloud",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"streamevent",
+								"brand",
+								"G Cloud"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mocked DynamoDB Stream New Deal Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44317/streamevent/category/Services",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44317",
+							"path": [
+								"streamevent",
+								"category",
+								"Services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hot Deal Blast",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"dealId\": \"C2LPylczZ2NuOO+K71cLi+aC3yk=\",\n\t\"subject\": \"New Hot Deal\",\n\t\"message\": \"Look, a new hot deal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bigDealsEndpoint}}/hotdealblast",
+							"host": [
+								"{{bigDealsEndpoint}}"
+							],
+							"path": [
+								"hotdealblast"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GitHub",
+			"item": [
+				{
+					"name": "Repository",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"repositoryName\": \"dynamodb-book\",\n\t\"description\": \"Repo for the CSharp version of the dynamo db book by Alex DeBrie\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Issues",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues?status=Open",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "Open"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Issue",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pull Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pull Requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls?status=Open",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "Open"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"A new issue\",\n\t\"content\": \"Look, this is a problem and you really need to fix it\",\n\t\"status\": \"Open\",\n\t\"creatorUsername\": \"james-eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create PR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"A new issue\",\n\t\"content\": \"Look, this is a problem and you really need to fix it\",\n\t\"creatorUsername\": \"james-eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"A new issue\",\r\n    \"content\": \"It's all done,\",\r\n    \"status\": \"Closed\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update PR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"A new issue\",\r\n    \"content\": \"It's all done,\",\r\n    \"status\": \"Closed\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Comments for issue",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments for PR",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Stargazers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/stars",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"stars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Fork Repo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"james-eastham-dev\",\n\t\"description\": \"My forked repo\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/forks",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"forks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Forks for Repo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/forks",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"forks"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Interactions",
+					"item": [
+						{
+							"name": "Add Comment to Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"James\",\n\t\"content\": \"This is an issue\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/2/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Comment to Pull Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"James\",\n\t\"content\": \"This is an issue\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Reaction To Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"jeasthamdev\",\n    \"reaction\": \"smile\",\n    \"targetNumber\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/comments/C2L2P9I0VQWo1robX4jWdsn56w=/reactions",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"comments",
+										"C2L2P9I0VQWo1robX4jWdsn56w=",
+										"reactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Reaction to issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"reaction\": \"smile\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1/reactions",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1",
+										"reactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add reaction to PR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"reaction\": \"smile\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2/reactions",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2",
+										"reactions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Star",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"jameseastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/stars",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"stars"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"email\": \"consulting@jameseastham.co.uk\",\n\t\"name\": \"James Eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Payment Plan for Org",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"paymentPlanType\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/payment",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Payment Plan for User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"paymentPlanType\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/payment",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Organization",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"organizationName\": \"James Eastham Consulting\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Member to Org",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"role\": \"Member\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/members",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user repos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get org repos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get members",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/members",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Org",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "GitHub Migrations",
+			"item": [
+				{
+					"name": "Repository",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"repositoryName\": \"dynamodb-book\",\n\t\"description\": \"Repo for the CSharp version of the dynamo db book by Alex DeBrie\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Issues",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues?status=Open",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "Open"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Issue",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pull Request",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Pull Requests",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls?status=Open",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "Open"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"A new issue\",\n\t\"content\": \"Look, this is a problem and you really need to fix it\",\n\t\"status\": \"Open\",\n\t\"creatorUsername\": \"james-eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create PR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"A new issue\",\n\t\"content\": \"Look, this is a problem and you really need to fix it\",\n\t\"creatorUsername\": \"james-eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"A new issue\",\r\n    \"content\": \"It's all done,\",\r\n    \"status\": \"Closed\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update PR",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"A new issue\",\r\n    \"content\": \"It's all done,\",\r\n    \"status\": \"Closed\",\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Comments for issue",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments for PR",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Stargazers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/stars",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"stars"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Interactions",
+					"item": [
+						{
+							"name": "Add Comment to Issue",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"James\",\n\t\"content\": \"This is an issue\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/issues/1/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"issues",
+										"1",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Comment to Pull Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"James\",\n\t\"content\": \"This is an issue\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/pulls/2/comments",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"pulls",
+										"2",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Star",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"jameseastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/repos/jeasthamdev/dynamodb-book/stars",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"repos",
+										"jeasthamdev",
+										"dynamodb-book",
+										"stars"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"email\": \"consulting@jameseastham.co.uk\",\n\t\"name\": \"James Eastham\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Payment Plan for User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"paymentPlanType\": 0\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/payment",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"payment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Organization",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"organizationName\": \"James Eastham Consulting\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Member to Org",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\": \"jeasthamdev\",\n\t\"role\": \"Member\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/members",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user repos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get org repos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"repos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get members",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting/members",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting",
+										"members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Org",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/organizations/James Eastham Consulting",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"organizations",
+										"James Eastham Consulting"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Gist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"gistTitle\": \"My gist\",\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/gists",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"gists"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Gists",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"ownerName\": \"jeasthamdev\",\n\t\"gistTitle\": \"My gist\",\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/users/jeasthamdev/gists",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"users",
+										"jeasthamdev",
+										"gists"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "TriggerMigrations",
+					"item": [
+						{
+							"name": "Account Migration",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/migrate/accounts",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"migrate",
+										"accounts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Repo Migrations",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/migrate/repos",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"migrate",
+										"repos"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Apps",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"appOwner\": \"jeasthamdev\",\n\t\"appName\": \"DynamoDB Book\",\n\t\"description\": \"An application for the dynamo db book\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/apps",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"apps"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Install App",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"repoOwner\": \"jeasthamdev\",\n\t\"repoName\": \"dynamodb-book\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{gitHubEndpoint}}/apps/jeasthamdev/DynamoDB Book/installations",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"apps",
+										"jeasthamdev",
+										"DynamoDB Book",
+										"installations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Installations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{gitHubEndpoint}}/apps/jeasthamdev/DynamoDB Book/installations",
+									"host": [
+										"{{gitHubEndpoint}}"
+									],
+									"path": [
+										"apps",
+										"jeasthamdev",
+										"DynamoDB Book",
+										"installations"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d36ec37a-af3d-4361-8007-0e84716c2268",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7da788fc-39c7-4d51-8142-e6455215716a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "4be6096e-2eb0-4912-b2e6-44acf2e33257",
+			"key": "eCommerceEndpoint",
+			"value": "https://localhost:44367",
+			"type": "string"
+		},
+		{
+			"id": "5ccc3beb-3abb-4e53-87fa-ddd7ea956ab6",
+			"key": "bigDealsEndpoint",
+			"value": "https://localhost:44367",
+			"type": "string"
+		},
+		{
+			"id": "3ac17f01-ff1c-4d55-bdce-5d68aad6d6ad",
+			"key": "gitHubEndpoint",
+			"value": "https://localhost:44367",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

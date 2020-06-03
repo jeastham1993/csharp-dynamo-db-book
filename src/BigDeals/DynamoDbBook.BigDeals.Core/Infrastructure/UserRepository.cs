@@ -85,12 +85,9 @@ namespace DynamoDbBook.BigDeals.Infrastructure
 
 			var users = new List<User>(scanResults.Items.Count);
 
-			foreach (var result in scanResults.Items)
+			foreach (var item in scanResults.Items)
 			{
-				var userData = result.FirstOrDefault(p => p.Key == "Data");
-
-				users.Add(
-					JsonConvert.DeserializeObject<User>(Document.FromAttributeMap(userData.Value.M).ToJson()));
+				users.Add(DynamoHelper.CreateFromItem<User>(item));
 			}
 
 			return users;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using DynamoDbBook.GitHub.Domain.Entities;
 using DynamoDbBook.GitHub.ViewModels;
+using DynamoDbBook.GitHubMigration.Core.Domain.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,18 +48,6 @@ namespace DynamoDbBook.GitHub.Controllers
 				await this._repoRepository.GetForOrganizationAsync(organizationName).ConfigureAwait(false));
 		}
 
-		[HttpPut("organizations/{organizationName}/paymentplan")]
-		public async Task<IActionResult> UpdatePaymentPlanForOrganization(
-			string organizationName,
-			[FromBody] UpdatePaymentPlanDTO paymentPlan)
-		{
-			await this._userRepo.UpdatePaymentPlanForOrganization(
-				organizationName,
-				new PaymentPlan(paymentPlan.PlanType, DateTime.Now));
-
-			return this.Ok();
-		}
-
 		[HttpPut("users/{userName}/paymentplan")]
 		public async Task<IActionResult> UpdatePaymentPlanForUser(
 			string userName,
@@ -95,6 +84,22 @@ namespace DynamoDbBook.GitHub.Controllers
 			return new OkObjectResult(
 				await this._userRepo.CreateOrganizationAsync(
 					new Organization() { Name = org.OrganizationName, OwnerName = org.OwnerName }));
+		}
+
+		[HttpPost("users/{username}/gists")]
+		public async Task<IActionResult> CreateGist(
+			[FromBody] Gist gist)
+		{
+			return new OkObjectResult(
+				await this._userRepo.CreateGist(gist));
+		}
+
+		[HttpGet("users/{username}/gists")]
+		public async Task<IActionResult> CreateGist(
+			string username)
+		{
+			return new OkObjectResult(
+				await this._userRepo.GetGistsAsync(username));
 		}
 
 		[HttpGet("users/{userName}")]
